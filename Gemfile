@@ -7,7 +7,7 @@ end
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.1'
 # Use sqlite3 as the database for Active Record
-gem 'mongoid', '~> 6.2.1'
+gem 'mongoid', '~> 6.4.2'
 # Use Puma as the app server
 gem 'puma', '~> 3.12'
 # Use SCSS for stylesheets
@@ -38,7 +38,10 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 # gem 'activeadmin'
 # gem 'aws-sdk-s3' # , require: false
+# gem 'activeadmin-mongoid', '0.8.0'
+# gem 'ransack-mongoid', github: 'activerecord-hackery/ransack-mongoid'
 gem 'carrierwave', '~> 1.0'
+gem 'devise'
 gem 'friendly_id', '~> 5.2.0'
 gem 'haml-rails', '~> 1.0'
 gem 'kaminari'

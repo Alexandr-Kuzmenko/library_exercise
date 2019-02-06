@@ -1,0 +1,8 @@
+.main_nav_bar
+  = link_to 'New book', new_book_path
+.page_content
+  %tile_block
+    .ul
+      - @books.each do |bk|
+        .li
+          = bk.name

@@ -1,0 +1,13 @@
+= form_for @book do |f|
+  = f.label :name, 'Name:'
+  = f.text_field :name
+  %br/
+  = f.label :name, 'Author:'
+  = f.text_field :author
+  %br/
+  = f.label :name, 'Description:'
+  = f.text_area :description
+  %br/
+  .actions
+    = f.submit 'Save', class: 'btn btn-info'
+

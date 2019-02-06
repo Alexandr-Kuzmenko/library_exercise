@@ -1,0 +1,23 @@
+.d-flex.mt-1.justify-content-center
+  .card{ style: "width: 20rem;" }
+    .card-body
+      .row
+        .btn.btn-outline-primary.disabled
+          %span
+            Resend unlock instructions
+      %br/
+      = form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f|
+        = devise_error_messages!
+        .row
+          %table
+            %tbody
+              %tr
+                %td
+                  = f.label :email, 'Email:'
+                %td
+                  = f.email_field :email, autofocus: true, autocomplete: 'email'
+        %br/
+        .row
+          .actions
+            = f.submit 'Resend unlock instructions', class: 'btn btn-success'
+      = render 'devise/shared/links'

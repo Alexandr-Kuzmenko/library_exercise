@@ -1,0 +1,34 @@
+.d-flex.mt-1.justify-content-center
+  .card{ style: "width: 20rem;" }
+    .card-body
+      .row
+        .btn.btn-outline-primary.disabled
+          %span
+            Change your password
+      %br/
+      = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
+        = devise_error_messages!
+        = f.hidden_field :reset_password_token
+        .row
+          %table
+            %tbody
+              %tr
+                %td
+                  = f.label :password, 'New password:'
+                %td
+                  = f.password_field :password, autofocus: true, autocomplete: 'new-password'
+                %tr
+                  %td{ colspan: '2' }
+                    %h6
+                      - if @minimum_password_length
+                        %em{b: ''}
+                          #{@minimum_password_length} characters minimum
+                %tr
+                  %td
+                    = f.label :password_confirmation, 'Confirm new password:'
+                  %td
+                    = f.password_field :password_confirmation, autocomplete: 'off'
+        .row
+          .actions
+            = f.submit 'Change my password', class: 'btn btn-success'
+      = render 'devise/shared/links'

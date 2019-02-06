@@ -1,0 +1,10 @@
+.d-flex.mt-1.justify-content-center
+  .card{ style: "width: 20rem;" }
+    .card-body
+      .row
+        .btn.btn-outline-primary.disabled
+          %span
+            Registration
+      %br/
+      = render 'devise/registrations/form'
+      = render 'devise/shared/links'

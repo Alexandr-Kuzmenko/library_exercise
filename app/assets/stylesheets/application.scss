@@ -1,1 +1,72 @@
-@import "bootstrap";
+//@import 'bootstrap';
+/*@import 'font-awesome';*/
+@import 'books';
+
+html, body {
+  min-height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Scroll */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+body {
+  min-width: 320px;
+  max-width: 100%;
+  background: LightGrey;
+
+  body table {
+    text-align: left;
+    vertical-align: middle;
+  }
+
+  body .info_text_block {
+    padding: 2px 5px;
+    background-color: #DCDCDC;
+    word-wrap: break-word;
+    border: solid 1px #000;
+    border-radius: 2px;
+  }
+
+  body div.card {
+    margin: 0 5px 5px 5px;
+  }
+
+  body .card-body {
+    background: #DCDCDC;
+    word-wrap: break-word;
+  }
+
+  /* Navigation button container styles */
+  .main_nav_bar {
+    position: absolute;
+    --max-height: 0;
+  }
+
+  .page_content {
+    position: relative;
+  }
+
+  .main_nav_bar, .page_content {
+    margin: 0;
+    padding: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+  /* Navigation buttons styles */
+}

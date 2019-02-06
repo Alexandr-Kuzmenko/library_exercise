@@ -1,0 +1,8 @@
+.d-flex.mt-1.justify-content-center
+  .card{style: "width: 20rem;"}
+    .card-body
+      .info_text_block
+        %span
+          Correct book's data or get
+        = link_to 'back', book_path(@book)
+      = render 'form', book: @book
