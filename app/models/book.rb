@@ -1,5 +1,6 @@
 class Book
   include Mongoid::Document
+  include Mongoid::Attributes::Dynamic
   include Mongoid::Timestamps
   # extend FriendlyId
 
@@ -12,15 +13,14 @@ class Book
 
   field :slug, type: String
 
-  has_many :book_histories
-  has_many :comments
-  has_many :likes
+  embeds_many :likes
+  embeds_many :book_histories
+  embeds_many :comments
 
   validates :name, presence: true
   validates :name, uniqueness: true
 
-  # embeds_many :likes
   # friendly_id :nickname, use: :slugged
 
-  # mount_uploader :envelope, EnvelopeUploader
+  mount_uploader :envelope, EnvelopeUploader
 end

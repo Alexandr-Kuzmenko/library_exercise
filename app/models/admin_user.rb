@@ -14,8 +14,8 @@ class AdminUser
   field :nickname, type: String
   field :avatar, type: String
 
-  has_many :books, as: :bookable, dependent: :nullify
-  has_many :comments, as: :commentable, dependent: :nullify
+  # has_many :books, as: :bookable, dependent: :nullify
+  # has_many :comments, as: :commentable, dependent: :nullify
 
   validates :email, presence: true
   validates :email, :nickname, uniqueness: true
@@ -25,7 +25,7 @@ class AdminUser
 
   devise :database_authenticatable, :recoverable, :rememberable, :validatable
 
-  # mount_uploader :avatar, AvatarUploader
+  mount_uploader :avatar, AvatarUploader
 
   ## Trackable
   # field :sign_in_count,      type: Integer, default: 0, null: false

@@ -2,12 +2,10 @@ class Like
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  field :user_id, type: Integer
-  field :book_id, type: Integer
+  field :user_id, type: String
 
-  belongs_to :book, counter_cache: true
-  belongs_to :user
+  embedded_in :book, counter_cache: true
 
-  validates :user, :book, presence: true
-  validates_uniqueness_of :user, scope: :book
+  validates :user_id, presence: true
+  validates_uniqueness_of :user_id, scope: :book
 end

@@ -19,13 +19,11 @@ class User
   field :last_sign_in_at,    type: Time
 
   field :nickname, type: String
-  # field :avatar, type: String
+  field :avatar, type: String
   field :slug, type: String
 
-  has_many :books, as: :bookable, dependent: :nullify
-  has_many :book_histories, dependent: :nullify
-  has_many :comments, as: :commentable, dependent: :nullify
-  has_many :likes, dependent: :destroy
+  # has_many :books, as: :bookable, dependent: :nullify
+  # has_many :book_histories, through: :books, dependent: :nullify
 
   validates :email, presence: true
   validates :password, confirmation: true, length: { in: 6..20 }, on: :create
@@ -39,7 +37,7 @@ class User
 
   # friendly_id :nickname, use: :slugged
 
-  # mount_uploader :avatar, AvatarUploader
+  mount_uploader :avatar, AvatarUploader
 
   ## Trackable
   # field :sign_in_count,      type: Integer, default: 0, null: false
@@ -58,4 +56,6 @@ class User
   # field :failed_attempts, type: Integer, default: 0 # Only if lock strategy is :failed_attempts
   # field :unlock_token,    type: String # Only if unlock strategy is :email or :both
   # field :locked_at,       type: Time
+
+  def will_save_change_to_email?; end
 end
