@@ -11,6 +11,8 @@ gem 'mongoid', '~> 6.4.2'
 # Use Puma as the app server
 gem 'puma', '~> 3.12'
 # Use SCSS for stylesheets
+gem 'bootstrap', '~> 4.1.3'
+gem 'jquery-rails'
 gem 'sass-rails', '>= 5.0.7'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 4.1.20'
@@ -40,12 +42,13 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # gem 'aws-sdk-s3' # , require: false
 # gem 'activeadmin-mongoid', '0.8.0'
 # gem 'ransack-mongoid', github: 'activerecord-hackery/ransack-mongoid'
-gem 'carrierwave', '~> 1.0'
+gem 'carrierwave-mongoid', require: 'carrierwave/mongoid'
 gem 'devise'
 gem 'friendly_id', '~> 5.2.0'
 gem 'haml-rails', '~> 1.0'
 gem 'kaminari'
 gem 'mini_magick'
+gem 'redis-rails'
 gem 'rspec-rails', '~> 3.8'
 
 group :development do
