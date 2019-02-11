@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  devise_for :admin_users, :users
-  resources :books, :comments
+  devise_for :admin_users
+  devise_for :users
+  resources :books, :comments, :users
 
   resources :books do
     resources :comments
