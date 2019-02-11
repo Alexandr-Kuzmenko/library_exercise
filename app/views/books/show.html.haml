@@ -1,24 +1,54 @@
+#edit-modal-window.modal.hide.fade{ 'aria-hidden': 'true', role: 'dialog', tabindex: '-1' }
+  .modal-dialog.modal-dialog-centered{ role: 'document' }
+    .modal-content
 .main_nav_bar
-  %p
-    Book: #{@book.name}
-  - if request.referer && request.referer != request.original_url
-    = link_to 'Back', request.referrer, id: 'back'
-  - else
-    = link_to 'Back', books_path, id: 'back'
-  %br/
-  = link_to 'Edit book', edit_book_path(@book)
-  %br/
-  = link_to 'Delete book', book_path(@book), method: :delete,
-      data: { confirm: 'Is it certain?' }
+  .btn-group
+    //%p
+    %btn.btn.btn-dark
+      Book: #{@book.name}
+    - if request.referer && request.referer != request.original_url
+      = link_to 'Back', request.referrer, id: 'back', class: 'btn btn-dark'
+    - else
+      = link_to 'Back', books_path, id: 'back', class: 'btn btn-dark'
+    %br/
+    = link_to 'Edit book', edit_book_path(@book), { remote: true, class: 'btn btn-dark', 'data-toggle': 'modal',
+                                               'data-target': '#edit-modal-window', id: 'emw' }
+    = link_to 'Delete book', book_path(@book), class: 'btn btn-dark', method: :delete,
+                                               data: { confirm: 'Is it certain?' }
 .page_content
   %tile_block
-    .ul
-      .li
+    .row.justify-content-center
+      .col.col-3
+        - if defined?(@book.envelope)
+          %img.img-fluid{ alt: 'book_envelope', src: @book.envelope.thumb.url }
+      .col.col-8.other
         %p
-          = @book.name
-      .li
+          Book name:
+          = @book.try(:name)
         %p
-          = @book.author
-      .li
+          Author:
+          = @book.try(:author)
         %p
-          = @book.description
+          Actuality:
+          = @book.likes_count
+        %p
+          = @book.try(:description)
+        - if @book.status
+          %btn.btn.btn-sm.btn-success.disabled
+            Book available
+        -else
+          %btn.btn.btn-sm.btn-danger.disabled
+            Book taken
+        - if current_user
+          - if exist_like?(@book)
+            //= link_to (fa_icon 'thumbs-down'), new_book_like_path(@book), class: "btn btn-sm btn-secondary", remote: true, id: 'like'
+            = link_to 'unlike', new_book_like_path(@book), class: "btn btn-sm btn-secondary", remote: true, id: 'like'
+          - else
+            //= link_to (fa_icon 'thumbs-up'), new_book_like_path(@book), class: "btn btn-sm btn-success", remote: true, id: 'like'
+            = link_to 'like', new_book_like_path(@book), class: "btn btn-sm btn-success", remote: true, id: 'like'
+
+  .d-flex.mt-1.justify-content-center
+    = render 'comments/form'
+  .d-flex.justify-content-center.mt-1.flex-column.align-items-center
+    = render @book.comments.order('created_at desc')
+

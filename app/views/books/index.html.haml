@@ -1,8 +1,44 @@
+#new-book-window.modal.hide.fade{ 'aria-hidden': 'true', role: 'dialog', tabindex: '-1' }
+  .modal-dialog.modal-dialog-centered{ role: 'document' }
+    .modal-content
+
+#edit-book-window.modal.hide.fade{ 'aria-hidden': 'true', role: 'dialog', tabindex: '-1' }
+  .modal-dialog.modal-dialog-centered{ role: 'document' }
+    .modal-content
 .main_nav_bar
-  = link_to 'New book', new_book_path
+  %btn.btn
+    = link_to 'New', new_book_path, { remote: true, 'data-toggle': 'modal',
+                                      'data-target': '#new-book-window', id: 'nmw' }
 .page_content
   %tile_block
-    .ul
-      - @books.each do |bk|
-        .li
-          = bk.name
+    - if Book.first
+      .row.justify-content-center
+        - @books.each_with_index do |bk, index|
+          .col.col-12.col-xl-6
+            .row.justify-content-center.mb-5
+              .col.col-3
+                - if defined?(bk.envelope)
+                  %img.img-fluid{ alt: 'book_envelope', src: bk.envelope.thumb.url }
+              .col.col-9.other
+                %p
+                  Book name:
+                  = bk.try(:name)
+                %p
+                  Author:
+                  = bk.try(:author)
+                %p
+                  Actuality:
+                  = bk.likes_count
+                %p
+                  = bk.try(:description)
+                - if bk.status
+                  %btn.btn.btn-sm.btn-success.disabled
+                    Book available
+                -else
+                  %btn.btn.btn-sm.btn-danger.disabled
+                    Book taken
+                %btn.btn
+                  = link_to 'Look', book_path(bk)
+                %btn.btn
+                  = link_to 'Edit', edit_book_path(bk), { remote: true, 'data-toggle': 'modal',
+                                                          'data-target': '#edit-book-window', id: "emw#{1+ index}" }

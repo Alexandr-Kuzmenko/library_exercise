@@ -4,5 +4,9 @@
       .info_text_block
         %span
           Correct book's data or get
-        = link_to 'back', book_path(@book)
-      = render 'form', book: @book
+        - if request.referer
+          = link_to 'back', request.referrer
+        - else
+          = link_to 'back', book_path(@book)
+      %br/
+      = render 'edit', book: @book

@@ -1,4 +1,4 @@
-//@import 'bootstrap';
+@import 'bootstrap';
 /*@import 'font-awesome';*/
 @import 'books';
 
@@ -52,8 +52,10 @@ body {
 
   /* Navigation button container styles */
   .main_nav_bar {
-    position: absolute;
+    //position: absolute;
+    position: relative;
     --max-height: 0;
+    height: 50px;
   }
 
   .page_content {
@@ -63,10 +65,36 @@ body {
   .main_nav_bar, .page_content {
     margin: 0;
     padding: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    width: 100%;
+    //top: 0;
+    //right: 0;
+    //bottom: 0;
+    //left: 0;
+
   }
   /* Navigation buttons styles */
+
+  .row {
+    margin: 0;
+    padding: 0;
+  }
+  .caption {
+    align-content: center;
+    text-align: center;
+    padding: 2px;
+  }
+
+  .alert {
+    height: 40px;
+    width: 100%;
+    margin: 0;
+    opacity: 0.5;
+  }
+  .vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
 }

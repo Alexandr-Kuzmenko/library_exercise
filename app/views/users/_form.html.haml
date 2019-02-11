@@ -1,0 +1,16 @@
+= form_for @user do |f|
+  .row{ style: 'padding: 1.25rem;' }
+    %table
+      %tbody
+        %tr
+          %td
+            = f.label :nickname, 'Nickname:'
+          %td
+            = f.text_field :nickname
+        %tr
+          %td
+            = f.label :avatar, 'Avatar:'
+          %td
+            = f.file_field :avatar
+  .actions
+    = f.submit 'Save', class: 'btn btn-success'
