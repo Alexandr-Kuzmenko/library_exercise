@@ -3,7 +3,7 @@ class BooksController < ApplicationController
   before_action :load_book, only: [:show, :edit, :update, :destroy]
 
   def index
-    @books = Book.all
+    @books = Book.all.to_a
   end
 
   def show; end

@@ -1,7 +1,7 @@
 class CommentsController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index, :show]
   before_action :load_comment, only: [:show, :edit, :update, :destroy]
-  before_action :load_parent_book, only: [:create]
+  before_action :load_parent_book, only: [:new, :create, :load_comment]
 
   def index
     @comments = Comment.all.order('created_at DESC').page(params[:comments_page])
@@ -42,7 +42,7 @@ class CommentsController < ApplicationController
   private
 
   def load_comment
-    @comment = Comment.find(params[:id])
+    @comment = @book.comments.find(params[:id])
   end
 
   def redirection

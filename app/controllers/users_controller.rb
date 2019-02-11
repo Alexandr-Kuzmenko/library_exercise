@@ -25,7 +25,7 @@ class UsersController < ApplicationController
 
   def load_user
     # @user = User.includes(:/*taken books*/).find(current_user.id)
-    @user = User.find(current_user.id)
+    @user = User.find(id: current_user.id)#.to_a
   end
 
   def user_params
