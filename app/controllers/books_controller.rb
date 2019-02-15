@@ -50,8 +50,8 @@ class BooksController < ApplicationController
 
   def return
     @book.update_attributes(status: true)
-    @book.registers.create(user: current_user, expired: true)
-    flash[:success] = 'Book returned'
+    #@register = @book.registers.where(user_id: current_user.id)&.order('created_at desc')&.first
+    #@register&.update_attributes(expired: true)
   end
 
   private

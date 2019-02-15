@@ -2,16 +2,15 @@
   .modal-dialog.modal-dialog-centered{ role: 'document' }
     .modal-content
 .main_nav_bar
-  .btn-group
-    - if request.referer && request.referer != request.original_url
-      = link_to 'Back', request.referrer, id: 'back', class: 'btn btn-dark'
-    - else
-      = link_to 'Back', books_path, id: 'back', class: 'btn btn-dark'
-    %br/
-    = link_to 'Edit book', edit_book_path(@book), { remote: true, class: 'btn btn-dark', 'data-toggle': 'modal',
-                                               'data-target': '#edit-modal-window', id: 'emw' }
-    = link_to 'Delete book', book_path(@book), class: 'btn btn-dark', method: :delete,
-                                               data: { confirm: 'Is it certain?' }
+  = link_to 'Root', root_path, class: 'btn btn-dark'
+  - if request.referer && request.referer != request.original_url
+    = link_to 'Back', request.referrer, id: 'back', class: 'btn btn-dark'
+  - else
+    = link_to 'Back', books_path, id: 'back', class: 'btn btn-dark'
+  = link_to 'Edit book', edit_book_path(@book), { remote: true, class: 'btn btn-dark', 'data-toggle': 'modal',
+                                             'data-target': '#edit-modal-window', id: 'emw' }
+  = link_to 'Delete book', book_path(@book), class: 'btn btn-dark', method: :delete,
+                                             data: { confirm: 'Is it certain?' }
 .page_content
   %tile_block
     .row.justify-content-center
