@@ -4,17 +4,21 @@ class Book
   include Mongoid::Timestamps
   # extend FriendlyId
 
+  # facade
   field :name, type: String
   field :author, type: String
-  field :envelope, type: String#, null: false
+  field :envelope, type: String
   field :description, type: String
-  field :status, type: Boolean, default: true
-  field :likes_count, type: Integer, default: 0
 
+  # inner fields
   field :slug, type: String
 
+  field :likes_count, type: Integer, default: 0
+
+  field :status, type: Boolean, default: true
+  has_many :registers
+
   embeds_many :likes
-  embeds_many :book_histories
   embeds_many :comments
 
   validates :name, presence: true

@@ -23,7 +23,7 @@ class User
   field :slug, type: String
 
   # has_many :books, as: :bookable, dependent: :nullify
-  # has_many :book_histories, through: :books, dependent: :nullify
+  has_many :registers
 
   validates :email, presence: true
   validates :password, confirmation: true, length: { in: 6..20 }, on: :create
