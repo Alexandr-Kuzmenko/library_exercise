@@ -7,6 +7,44 @@
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     %script{ src: "https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" }
+    %link{:href => "https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css", :rel => "stylesheet"}/
+    %script{:src => "https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"}
     %meta{ name: :viewport, content: 'width=device-width, initial-scale=0.8, shrink-to-fit=no' }
   %body
+    #sign-in-modal.modal.fade{ 'aria-hidden': 'true', role: 'dialog', tabindex: '-1' }
+      .modal-dialog.modal-dialog-centered{ role: 'document'}
+        .modal-content
+          .modal-header
+            %button.btn.btn-outline-primary.disabled
+              %span
+                Authorization
+            %button.close{ 'aria-label' => 'Close', 'data-dismiss' => 'modal', type: 'button' }
+              %span{ 'aria-hidden' => 'true' } ×
+          .modal-body
+            = render 'devise/sessions/modal'
+    #sign-up-modal.modal.fade{ 'aria-hidden': 'true', role: 'dialog', tabindex: '-1' }
+      .modal-dialog.modal-dialog-centered{ role: 'document' }
+        .modal-content
+          .modal-header
+            %button.btn.btn-outline-primary.disabled
+              %span
+                Registration
+            %button.close{ 'aria-label' => 'Close', 'data-dismiss' => 'modal', type: 'button' }
+              %span{ 'aria-hidden' => 'true' } ×
+          .modal-body
+            = render 'devise/registrations/modal'
+    %header
+      - flash.each do |key, value|
+        %div{class: "alert alert-#{key} alert-dismissible fade show", role: "alert" }
+          %strong.vertical-center
+            = value
+          %button.vertical-center.close{ "aria-label": "Close", "data-dismiss": "alert", type: "button", style: 'top: 50%;' }
+            %span{ "aria-hidden": "true" } ×
     = yield
+
+
+
+
+
+
+

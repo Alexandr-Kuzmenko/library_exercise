@@ -6,39 +6,110 @@
   .modal-dialog.modal-dialog-centered{ role: 'document' }
     .modal-content
 .main_nav_bar
-  %btn.btn
-    = link_to 'New', new_book_path, { remote: true, 'data-toggle': 'modal',
-                                      'data-target': '#new-book-window', id: 'nmw' }
+  - if user_signed_in?
+    = link_to 'New', new_book_path, { remote: true, 'data-toggle': 'modal', class: 'btn btn-dark' ,
+                                    'data-target': '#new-book-window', id: 'nmw' }
+    = link_to 'Profile', user_index_path, class: 'btn btn-dark'
+    = link_to 'Log out', destroy_user_session_path, class: 'btn btn-dark', method: :delete
+  - else
+    = link_to 'New', '', { remote: true, 'data-content' => 'You have to login at first',
+                           'data-toggle' => 'popover', 'data-placement' => 'bottom' }
+
+    %button.btn.btn-danger{ 'data-content' => 'You have to login at first', 'data-toggle' => 'popover',
+                                       'data-placement' => 'bottom' } New
+    = link_to 'Sign in', '', { id: 'login_modal', 'data-target': '#sign-in-modal',
+                               'data-toggle': 'modal', class: 'btn btn-dark' }
+    = link_to 'Sign up', '', { id: 'sign_up_modal', 'data-target': '#sign-up-modal',
+                               'data-toggle': 'modal', class: 'btn btn-dark' }
 .page_content
-  %tile_block
-    - if Book.first
-      .row.justify-content-center
-        - @books.each_with_index do |bk, index|
-          .col.col-12.col-xl-6
-            .row.justify-content-center.mb-5
-              .col.col-3
-                - if defined?(bk.envelope)
-                  %img.img-fluid{ alt: 'book_envelope', src: bk.envelope.thumb.url }
-              .col.col-9.other
-                %p
-                  Book name:
-                  = bk.try(:name)
-                %p
-                  Author:
-                  = bk.try(:author)
-                %p
-                  Actuality:
-                  = bk.likes_count
-                %p
-                  = bk.try(:description)
-                - if bk.status
-                  %btn.btn.btn-sm.btn-success.disabled
-                    Book available
-                -else
-                  %btn.btn.btn-sm.btn-danger.disabled
-                    Book taken
-                %btn.btn
-                  = link_to 'Look', book_path(bk)
-                %btn.btn
-                  = link_to 'Edit', edit_book_path(bk), { remote: true, 'data-toggle': 'modal',
-                                                          'data-target': '#edit-book-window', id: "emw#{1+ index}" }
+  - if Book.first
+    #accordion
+      .card
+        #subhead_1.btn.btn-block.btn-primary.collapsed{ 'aria-controls' => 'submenu_1', 'data-target' => '#submenu_1',
+                                                        'aria-expanded' => 'true', 'data-toggle' => 'collapse' }
+          %span Top Books
+        #subhead_2.btn.btn-block.btn-success.collapsed{ 'aria-controls' => 'submenu_2', 'data-target' => '#submenu_2',
+                                                        'aria-expanded' => 'true', 'data-toggle' => 'collapse' }
+          %span Main list
+        #subhead_3.btn.btn-block.btn-secondary.collapsed{ 'aria-controls' => 'submenu_3', 'data-target' => '#submenu_3',
+                                                          'aria-expanded' => 'true', 'data-toggle' => 'collapse' }
+          %span Books taken
+        #submenu_1.collapse.show{ 'aria-labelledby' => 'subhead_1', 'data-parent' => '#accordion' }
+          .card-body
+            .row
+              - @top_books.each_with_index do |top_bk, index|
+                .col.col-12.col-xl-6
+                  .row.justify-content-center.mb-3
+                    .col.col-3
+                      - if defined?(top_bk.envelope)
+                        %img.img-fluid{ alt: 'book_envelope', src: top_bk.envelope.thumb.url }
+                    .col.col-9.other
+                      %p
+                        Book name:
+                        = top_bk.try(:name)
+                      %p
+                        Author:
+                        = top_bk.try(:author)
+                      #lcount.p
+                        Actuality:
+                        = top_bk.likes_count
+                      %p
+                        = top_bk.try(:description).truncate(100, omission: '...')
+                      %btn.btn
+                        = link_to 'Look', book_path(top_bk)
+                      %btn.btn
+                        = link_to 'Edit', edit_book_path(top_bk), { remote: true, 'data-toggle': 'modal',
+                                                                'data-target': '#edit-book-window', id: "top_emw#{ 1 + index }" }
+        #submenu_2.collapse{ 'aria-labelledby' => 'subhead_2', 'data-parent' => '#accordion' }
+          .card-body
+            .row
+              - @books.each_with_index do |bk, index|
+                .col.col-12.col-xl-6
+                  .row.justify-content-center.mb-3
+                    .col.col-3
+                      - if defined?(bk.envelope)
+                        %img.img-fluid{ alt: 'book_envelope', src: bk.envelope.thumb.url }
+                    .col.col-9.other
+                      %p
+                        Book name:
+                        = bk.try(:name)
+                      %p
+                        Author:
+                        = bk.try(:author)
+                      #lcount.p
+                        Actuality:
+                        = bk.likes_count
+                      %p
+                        = bk.try(:description).truncate(100, omission: '...')
+                      %btn.btn
+                        = link_to 'Look', book_path(bk)
+                      %btn.btn
+                        = link_to 'Edit', edit_book_path(bk), { remote: true, 'data-toggle': 'modal',
+                                                                'data-target': '#edit-book-window', id: "emw#{ 1+ index }" }
+        #submenu_3.collapse{ 'aria-labelledby' => 'subhead_3', 'data-parent' => '#accordion' }
+          .card-body
+            - if @books_taken.first
+              .row
+                - @books_taken.each_with_index do |taken_bk, index|
+                  .col.col-12.col-xl-6
+                    .row.justify-content-center.mb-3
+                      .col.col-3
+                        - if defined?(taken_bk.envelope)
+                          %img.img-fluid{ alt: 'book_envelope', src: taken_bk.envelope.thumb.url }
+                      .col.col-9.other
+                        %p
+                          Book name:
+                          = taken_bk.try(:name)
+                        %p
+                          Author:
+                          = taken_bk.try(:author)
+                        #lcount.p
+                          Actuality:
+                          = taken_bk.likes_count
+                        %p
+                          = taken_bk.try(:description).truncate(100, omission: '...')
+                        %btn.btn.disabled
+                          %span Taken by ...
+            - else
+              %span Empty
+  //make text:hover height: auto;
