@@ -43,7 +43,9 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # gem 'activeadmin-mongoid', '0.8.0'
 # gem 'ransack-mongoid', github: 'activerecord-hackery/ransack-mongoid'
 gem 'carrierwave-mongoid', require: 'carrierwave/mongoid'
+
 gem 'devise'
+gem 'font-awesome-rails'
 gem 'friendly_id', '~> 5.2.0'
 gem 'haml-rails', '~> 1.0'
 gem 'kaminari'
