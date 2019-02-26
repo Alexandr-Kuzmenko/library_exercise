@@ -10,10 +10,10 @@ class UsersController < ApplicationController
     if @user.update(params.require(:user).permit(:nickname, :avatar,
                                                  :encrypted_password, :password_confirmation))
       # current_admin_user ? redirect_to(admin_user_users_path) : redirect_to(users_path)
-      redirect_to users_path
     else
-      render :edit
+      flash[:warning] = 'Information updating went wrong'
     end
+    redirect_to users_path
   end
 
   def destroy
