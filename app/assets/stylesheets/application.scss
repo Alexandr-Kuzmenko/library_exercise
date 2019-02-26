@@ -1,5 +1,6 @@
 @import 'bootstrap';
 @import 'font-awesome';
+@import 'comments';
 @import 'books';
 
 html, body {
@@ -27,12 +28,10 @@ body {
   min-width: 320px;
   max-width: 100%;
   background: LightGrey;
-
   body table {
     text-align: left;
     vertical-align: middle;
   }
-
   body .info_text_block {
     padding: 2px 5px;
     background-color: #DCDCDC;
@@ -40,16 +39,13 @@ body {
     border: solid 1px #000;
     border-radius: 2px;
   }
-
   body div.card {
     margin: 0 5px 5px 5px;
   }
-
   body .card-body {
     background: #DCDCDC;
     word-wrap: break-word;
   }
-
   /* Navigation button container styles */
   .main_nav_bar {
     //position: absolute;
@@ -57,11 +53,9 @@ body {
     --max-height: 0;
     height: 50px;
   }
-
   .page_content {
     position: relative;
   }
-
   .main_nav_bar, .page_content {
     margin: 0;
     padding: 0;
@@ -70,10 +64,8 @@ body {
     //right: 0;
     //bottom: 0;
     //left: 0;
-
   }
   /* Navigation buttons styles */
-
   .row {
     margin: 0;
     padding: 0;
@@ -83,7 +75,6 @@ body {
     text-align: center;
     padding: 2px;
   }
-
   .alert {
     height: 40px;
     width: 100%;
