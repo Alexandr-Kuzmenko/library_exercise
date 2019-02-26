@@ -1,17 +1,16 @@
 .comments_block
-  -#.author_block
-  -#  - if comment.commentable.avatar?
-  -#    %img.img-fluid{ alt: 'avatar', src: comment.commentable.avatar.url }
-  -#  - else
-  -#    = image_tag 'avatar_default.jpg', alt: "avatar", class: 'img-fluid'
-  -#  %p.m-0
-  -#    - if comment.commentable.nickname?
-  -#      = comment.commentable.nickname
-  -#    - else
-  -#      = comment.commentable.class
-  -#      = comment.commentable.id
-  -#  %p.m-0
-  -#    = comment.created_at.strftime("%Y-%m-%d %H:%M")
+  .author_block
+    - if author_user?(comment)
+      - if @usr.avatar?
+        %img.img-fluid{ alt: 'avatar', src: @usr.avatar.url }
+      - else
+        = image_tag 'no_avatar.jpg', alt: 'avatar', class: 'img-fluid'
+      %p.m-0
+        - if @usr.nickname?
+          = @usr.nickname
+        - else
+          %span Nameless member
+      %p.m-0
+        = comment.created_at.strftime("%Y-%m-%d %H:%M")
   .comment_block
     = comment.text
-

@@ -1,8 +1,8 @@
-= form_for [ @book, @book.comments.build ], local: true, html: { style: 'width: 90%;' } do |f|
-  .d-flex.justify-content-center.m-1
-    %print_field_btn.btn.btn-primary Print comment
-  .new_comment_block{ style: "display: none" }
-    .captcha_block
-      //= recaptcha_tags(theme: :light, ajax: :true, size: :compact)
-      = f.submit 'Print', class: "btn btn-success btn-block"
-    = f.text_area(:text, class: 'text_area_block')
+= form_for [ @book, Comment.new ], local: true do |f|
+  .new_comment_block
+    .comments_actions_block
+      = f.button 'Cancel', type: :reset,  class: 'btn btn-sm btn-warning', style: 'width: 20%;'
+      = f.submit 'Print', class: 'btn btn-sm btn-success', style: 'width: 20%;'
+    #empty_block.div
+    = f.text_area :text, class: 'text_area_block', placeholder: 'Print you comment here...'
+    #empty_block2.div

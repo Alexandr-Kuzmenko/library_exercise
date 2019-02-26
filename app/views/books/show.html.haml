@@ -1,4 +1,4 @@
-#edit-modal-window.modal.hide.fade{ 'aria-hidden': 'true', role: 'dialog', tabindex: '-1' }
+#edit-book-window.modal.hide.fade{ 'aria-hidden': 'true', role: 'dialog', tabindex: '-1' }
   .modal-dialog.modal-dialog-centered{ role: 'document' }
     .modal-content
 .main_nav_bar
@@ -8,51 +8,73 @@
   - else
     = link_to 'Back', books_path, id: 'back', class: 'btn btn-dark'
   = link_to 'Edit book', edit_book_path(@book), { remote: true, class: 'btn btn-dark', 'data-toggle': 'modal',
-                                             'data-target': '#edit-modal-window', id: 'emw' }
+                                             'data-target': '#edit-book-window', id: 'emw' }
+
+
   = link_to 'Delete book', book_path(@book), class: 'btn btn-dark', method: :delete,
                                              data: { confirm: 'Is it certain?' }
+  - if user_signed_in?
+    = link_to 'Profile', user_index_path, class: 'btn btn-dark'
+    = link_to 'Log out', destroy_user_session_path, class: 'btn btn-dark', method: :delete
+  - else
+    = link_to 'Sign in', '', { id: 'login_modal', 'data-target': '#sign-in-modal',
+                               'data-toggle': 'modal', class: 'btn btn-dark' }
+    = link_to 'Sign up', '', { id: 'sign_up_modal', 'data-target': '#sign-up-modal',
+                               'data-toggle': 'modal', class: 'btn btn-dark' }
 .page_content
   %tile_block
-    .row.justify-content-center
-      .col.col-3
-        - if defined?(@book.envelope)
-          %img.img-fluid{ alt: 'book_envelope', src: @book.envelope.thumb.url }
-      .col.col-8.other
-        %p.mb-1
-          Book name:
-          = @book.try(:name)
-        %p.mb-1
-          Author:
-          = @book.try(:author)
-        #lcount.p.mb-1
-          Actuality:
-          = @book.likes_count
-        %p.mb-1
-          = @book.try(:description)
-        - if @book.status
-          %btn.btn.btn-sm.btn-success.disabled
-            Book available
-          = link_to 'Take book', take_book_path(@book), { method: :put }
-        - else
-          %btn.btn.btn-sm.btn-danger.disabled
-            Book taken
-        - if current_user
-          - if exist_like?(@book)
-            = link_to (fa_icon 'thumbs-down'), new_book_like_path(@book), class: "btn btn-sm btn-secondary", remote: true, id: 'like'
-          - else
-            = link_to (fa_icon 'thumbs-up'), new_book_like_path(@book), class: "btn btn-sm btn-success", remote: true, id: 'like'
+    .row.justify-content-center.p-2
+      .col.col-12.col-md-4.col-lg-3.m-0.p-0
+        #book_envelope_block
+          %div
+            - if defined?(@book.envelope)
+              %img.img-fluid{ alt: 'book_envelope', src: @book.envelope.thumb.url }
+            - else
+              = image_tag 'no_envelope.jpg', alt: 'book_envelope', class: 'img-fluid'
+            .caption.align-content-center
+              %button.btn.btn-sm.btn-info.disabled
+                = fa_icon 'heart'
+                %lcount
+                  = @book.likes_count
+              - if current_user
+                - if exist_like?(@book)
+                  = link_to (fa_icon 'thumbs-down'), new_book_like_path(@book),
+                          class: 'btn btn-sm btn-secondary', remote: true, id: 'like'
+                - else
+                  = link_to (fa_icon 'thumbs-up'), new_book_like_path(@book),
+                          class: 'btn btn-sm btn-success', remote: true, id: 'like'
+            - if @book.status
+              = link_to 'Book available', take_book_path(@book), { method: :put, id: 'take_book_btn',
+                                                                   class: 'btn btn-sm btn-success btn-block' }
+            - else
+              %btn.btn.btn-sm.btn-danger.btn-block.disabled
+                Book taken
+          #empty_block.div
 
-          -# remote: true,
-          -#- if bk.status
-          -#  #take-button.btn.btn-sm.btn-success
-          -#    Book available
-          -#-else
-          -#  %btn.btn.btn-sm.btn-danger.disabled
-          -#    %span
-          -#      Book taken
+      .col.col-12.col-md-8.col-lg-9.m-0.p-0
+        #book_title_block
+          %table.table-bordered.table-striped
+            %tbody
+              %tr
+                %td
+                  %span
+                    Full name:
+                %td
+                  = @book.try(:name)
+              %tr
+                %td
+                  %span
+                    Author:
+                %td
+                  = @book.try(:author)
+          #empty_block.div
+        #book_description_block
+          #book_description
+            = @book.try(:description)
+          #empty_block.div
 
-  .d-flex.mt-1.justify-content-center
-    = render 'comments/form'
-  .d-flex.justify-content-center.mt-1.flex-column.align-items-center
-    = render @book.comments.order('created_at desc')
+        .d-flex.flex-column.justify-content-center
+          = render 'comments/form'
+        .d-flex.flex-column
+          = render @book.comments.order('created_at desc')
 

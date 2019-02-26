@@ -25,46 +25,79 @@
   - if Book.first
     #accordion
       .card
-        #subhead_1.btn.btn-block.btn-primary.collapsed{ 'aria-controls' => 'submenu_1', 'data-target' => '#submenu_1',
-                                                        'aria-expanded' => 'true', 'data-toggle' => 'collapse' }
-          %span Top Books
-        #subhead_2.btn.btn-block.btn-success.collapsed{ 'aria-controls' => 'submenu_2', 'data-target' => '#submenu_2',
-                                                        'aria-expanded' => 'true', 'data-toggle' => 'collapse' }
-          %span Main list
-        #subhead_3.btn.btn-block.btn-secondary.collapsed{ 'aria-controls' => 'submenu_3', 'data-target' => '#submenu_3',
-                                                          'aria-expanded' => 'true', 'data-toggle' => 'collapse' }
-          %span Books taken
+        .row
+          .col-4.m-0.p-0
+            #subhead_1.btn.btn-block.btn-primary.collapsed{ 'aria-controls' => 'submenu_1', 'data-target' => '#submenu_1',
+                                                            'aria-expanded' => 'true', 'data-toggle' => 'collapse' }
+              %span Top Books
+          .col-4.m-0.p-0
+            #subhead_2.btn.btn-block.btn-success.collapsed{ 'aria-controls' => 'submenu_2', 'data-target' => '#submenu_2',
+                                                            'aria-expanded' => 'true', 'data-toggle' => 'collapse' }
+              %span Main list
+          .col-4.m-0.p-0
+            #subhead_3.btn.btn-block.btn-secondary.collapsed{ 'aria-controls' => 'submenu_3', 'data-target' => '#submenu_3',
+                                                              'aria-expanded' => 'true', 'data-toggle' => 'collapse' }
+              %span Books taken
         #submenu_1.collapse.show{ 'aria-labelledby' => 'subhead_1', 'data-parent' => '#accordion' }
           .card-body
             .row
               - @top_books.each_with_index do |top_bk, index|
-                .col.col-12.col-xl-6
+                .col.col-12.col-xl-6.m-0.p-0
                   .row.justify-content-center.mb-3
-                    .col.col-3
-                      - if defined?(top_bk.envelope)
-                        %img.img-fluid{ alt: 'book_envelope', src: top_bk.envelope.thumb.url }
-                    .col.col-9.other
-                      %p
-                        Book name:
-                        = top_bk.try(:name)
-                      %p
-                        Author:
-                        = top_bk.try(:author)
-                      #lcount.p
-                        Actuality:
-                        = top_bk.likes_count
-                      %p
-                        = top_bk.try(:description).truncate(100, omission: '...')
-                      %btn.btn
-                        = link_to 'Look', book_path(top_bk)
-                      %btn.btn
-                        = link_to 'Edit', edit_book_path(top_bk), { remote: true, 'data-toggle': 'modal',
-                                                                'data-target': '#edit-book-window', id: "top_emw#{ 1 + index }" }
+                    .col.col-3.m-0.p-0
+                      #book_envelope_block
+                        %div
+                          = link_to book_path(top_bk) do
+                            - if defined?(top_bk.envelope)
+                              %img.img-fluid{ alt: 'book_envelope', src: top_bk.envelope.thumb.url }
+                            - else
+                              = image_tag 'no_envelope.jpg', alt: 'book_envelope', class: 'img-fluid'
+                          .caption.align-content-center
+                            %button.btn.btn-sm.btn-info.disabled
+                              = fa_icon 'heart'
+                              %lcount
+                                = top_bk.likes_count
+
+                          - if top_bk.status?
+                            %btn.btn.btn-sm.btn-success.btn-block.disabled
+                              free
+                            -#= link_to 'Book available', take_book_path(@book), { method: :put, id: 'take_book_btn',
+                            -#                                                     class: 'btn btn-sm btn-success btn-block' }
+                          - else
+                            %btn.btn.btn-sm.btn-danger.btn-block.disabled
+                              Taken
+                        #empty_block.div
+                    .col.col-9.other.m-0.p-0
+                      #book_title_block
+                        %table.table-bordered.table-striped
+                          %tbody
+                            %tr
+                              %td
+                                %span
+                                  Full name:
+                              %td
+                                = top_bk.try(:name)
+                            %tr
+                              %td
+                                %span
+                                  Author:
+                              %td
+                                = top_bk.try(:author)
+                        #empty_block.div
+
+                      #book_description_block
+                        #book_description
+                          = top_bk.try(:description)
+                        #empty_block.div
+                      -#.truncate(100, omission: '...')
+                      -#%btn.btn
+                      -#  = link_to 'Edit', edit_book_path(top_bk), { remote: true, 'data-toggle': 'modal',
+                      -#                                          'data-target': '#edit-book-window', id: "top_emw#{ 1 + index }" }
         #submenu_2.collapse{ 'aria-labelledby' => 'subhead_2', 'data-parent' => '#accordion' }
           .card-body
             .row
               - @books.each_with_index do |bk, index|
-                .col.col-12.col-xl-6
+                .col.col-12.col-xl-6.m-0.p-0
                   .row.justify-content-center.mb-3
                     .col.col-3
                       - if defined?(bk.envelope)
@@ -91,7 +124,7 @@
             - if @books_taken.first
               .row
                 - @books_taken.each_with_index do |taken_bk, index|
-                  .col.col-12.col-xl-6
+                  .col.col-12.col-xl-6.m-0.p-0
                     .row.justify-content-center.mb-3
                       .col.col-3
                         - if defined?(taken_bk.envelope)
@@ -112,4 +145,3 @@
                           %span Taken by ...
             - else
               %span Empty
-  //make text:hover height: auto;

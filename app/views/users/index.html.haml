@@ -10,7 +10,7 @@
   = link_to 'Edit user', edit_user_path(@user), { remote: true, 'data-toggle': 'modal', class: 'btn btn-dark',
                                                   'data-target': '#edit-user-window', id: 'eul' }
 .page_content
-  .row.mt-5
+  .row.mt-1
     .container-fluid.align-items-center
       .row
         .col-auto.p-0.mr-1
@@ -66,7 +66,6 @@
                 = reg.book.likes_count
               %p
                 = reg.book.try(:description).truncate(100, omission: '...')
-              %btn.btn
-                = link_to 'Look', book_path(reg.book)
-              %btn.btn
-                = link_to 'Return', return_book_path(reg.book), { method: :put }
+              = link_to 'Look', book_path(reg.book), class: 'btn btn-primary'
+              = link_to 'Return', return_book_path(reg.book), { method: :put, remote: true, id: "return_btn#{index + 1}",
+                                                                class: 'btn btn-primary' }
