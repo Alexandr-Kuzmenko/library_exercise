@@ -27,17 +27,20 @@ class BooksController < ApplicationController
   end
 
   def update
-    if @book.update(book_params)
+    if @book.update_attributes(book_params)
       flash[:success] = 'Book parameters have been changed'
-      redirection
     else
       flash[:warning] = 'Book parameters update have been failed'
-      render :edit
     end
+    redirection
   end
 
   def destroy
-    flash[:warning] = 'Some reason prevents deleting' unless @book.destroy
+    if @book.destroy
+      flash[:success] = 'Deleting successful'
+    else
+      flash[:warning] = 'Some reason prevents deleting'
+    end
     redirection
   end
 
@@ -45,7 +48,7 @@ class BooksController < ApplicationController
     @book.update_attributes(status: false)
     @book.registers.create(user_id: current_user.id)
     flash[:success] = 'Book taken'
-    redirect_to book_path(@book)
+    redirect_back fallback_location: book_url(@book)
   end
 
   def return
@@ -57,16 +60,14 @@ class BooksController < ApplicationController
   private
 
   def book_params
-    params.require(:book).permit(:name, :author, :envelope, :description, :status)
+    params.require(:book).permit(:name, :author, :envelope, :description)
   end
 
   def redirection
-    # current_admin_user ? redirect_to(books_path) : redirect_to(books_path)
     redirect_back fallback_location: books_url
   end
 
   def load_book
-    # @book = Book.friendly.find(params[:id])
     @book = Book.find(params[:id])
   end
 end

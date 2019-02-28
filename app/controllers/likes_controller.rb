@@ -20,7 +20,6 @@ class LikesController < ApplicationController
 
   def check_like
     @book = Book.find(params[:book_id])
-    # @book = Book.friendly.find(params[:book_id])
     @like = @book&.likes&.find_by user_id: current_user.id
   end
 end

@@ -7,7 +7,7 @@
   grid-template-columns: auto 40px;
 
   .comments_actions_block {
-    margin: 2px 0;
+    margin: 2px 0 4px 0;
     padding: 0 0 0 10px;
     justify-content: center;
     text-align: right;
@@ -16,6 +16,7 @@
     padding: 2px 5px;
     width: 100%;
     height: 45px;
+    word-break: break-word;
     transition: all .25s linear;
     transition-property: height;
     border: solid 1px #000;

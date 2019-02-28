@@ -83,7 +83,22 @@
         .book_description
           = @book.try(:description)
         %div
+
       .d-flex.flex-column.justify-content-center
         = render 'comments/form'
-      .d-flex.flex-column
+      .d-flex.flex-column.mb-2
         = render @book.comments.order('created_at desc')
+      .registers_block
+        = link_to 'History', '', { id: 'hist_coll_btn', 'data-target' => '#hist_coll',
+                                   'data-toggle' => 'collapse', class: 'btn btn-sm btn-info mb-2' }
+        %div
+        #hist_coll.collapse
+          %table.table-bordered.table-striped.mb-2
+            %tbody
+              %tr
+                %th Taken by
+                %th Taken in
+                %th Returned in
+              = render @book.registers.order('created_at desc')
+        %div
+        #history_look_div.div

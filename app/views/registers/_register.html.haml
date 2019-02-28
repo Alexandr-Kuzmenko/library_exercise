@@ -1,0 +1,14 @@
+%tr
+  %td
+    - if register.user.nickname
+      = register.user.nickname
+    - else
+      %span User
+      = register.user.id
+  %td
+    = register.created_at.strftime("%Y-%m-%d %H:%M")
+  %td
+    - if register.expired
+      = register.updated_at.strftime("%Y-%m-%d %H:%M")
+    - else
+      %span &nbsp&nbsp&nbsp

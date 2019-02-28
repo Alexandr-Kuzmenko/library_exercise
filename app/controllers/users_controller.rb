@@ -7,9 +7,9 @@ class UsersController < ApplicationController
   def edit; end
 
   def update
-    if @user.update(params.require(:user).permit(:nickname, :avatar,
-                                                 :encrypted_password, :password_confirmation))
-      # current_admin_user ? redirect_to(admin_user_users_path) : redirect_to(users_path)
+    if @user.update_attributes(params.require(:user).permit(:nickname, :avatar))
+      # , :encrypted_password, :password_confirmation))
+      flash[:success] = 'Changes successful'
     else
       flash[:warning] = 'Information updating went wrong'
     end
@@ -17,7 +17,11 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user.destroy ? flash[:success] = 'Deleting successful' : flash[:warning] = 'Deleting went wrong'
+    if @user.destroy
+      flash[:success] = 'Deleting successful'
+    else
+      flash[:warning] = 'Deleting went wrong'
+    end
     redirect_to root_path
   end
 

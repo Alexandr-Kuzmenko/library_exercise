@@ -3,8 +3,21 @@
     background-color: #FFFFF0;
 
     td {
-      padding: 0px 2px;
+      padding: 0 2px;
       text-align: center;
+      word-break: break-word;
+    }
+  }
+}
+#hist_coll {
+  table {
+    width: 100%;
+    background-color: #FFFFF0;
+
+    td, th {
+      padding: 0 2px;
+      text-align: center;
+      word-break: break-word;
     }
   }
 }
@@ -27,13 +40,13 @@
 .book_title_block {
   margin: 0;
   padding: 0 0 0 10px;
-  //margin: 0 0 5px 0;
   grid-template-columns: auto 40px;
 
   .book_description {
     padding: 2px 5px;
     border: solid 1px #000;
     background-color: #FFFFF0;
+    word-break: break-word;
   }
 }
 @media screen and (max-width: 479px) {

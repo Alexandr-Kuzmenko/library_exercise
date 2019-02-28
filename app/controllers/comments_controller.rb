@@ -10,7 +10,8 @@ class CommentsController < ApplicationController
   def show; end
 
   def new
-    @comment = @book.comments.new
+    # @comment = @book.comments.new
+    @comment = Comment.new
   end
 
   def edit; end
@@ -26,12 +27,11 @@ class CommentsController < ApplicationController
 
   def update
     if current_admin_user
-      if @comment.update(comment_params)
-        redirection
-      end
+      @comment.update_attributes(comment_params)
     else
-      render :show
+      flash[:warning] = 'Unpermitted operation'
     end
+    redirection
   end
 
   def destroy
@@ -43,7 +43,6 @@ class CommentsController < ApplicationController
 
   def load_parent_book
     @book = Book.find(params[:book_id])
-    # @book = Book.friendly.find(params[:book_id])
   end
 
   def load_comment
@@ -55,7 +54,6 @@ class CommentsController < ApplicationController
   end
 
   def redirection
-    redirect_to book_path(@book)
-    # current_admin_user ? redirect_to(book_path) : redirect_to(book_path(@book))
+    redirect_back fallback_location: book_url(@book)
   end
 end
