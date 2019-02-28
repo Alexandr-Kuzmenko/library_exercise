@@ -1,12 +1,14 @@
 .new_comment_block {
   position: relative;
-  margin: 1px;
+  margin: 2px 0;
+  padding: 0 0 0 10px;
   width: 100%;
   display: grid;
   grid-template-columns: auto 40px;
 
   .comments_actions_block {
-    margin: 2px;
+    margin: 2px 0;
+    padding: 0 0 0 10px;
     justify-content: center;
     text-align: right;
   }
@@ -23,7 +25,8 @@
 }
 .comments_block {
   position: relative;
-  margin: 1px;
+  margin: 0 0 2px 0;
+  padding: 0 0 0 10px;
   width: 100%;
   display: grid;
   grid-template-columns: 110px auto 40px;
@@ -46,9 +49,11 @@
 @media screen and (max-width: 479px) {
   .new_comment_block {
     grid-template-columns: auto;
+    padding: 0 10px;
   }
   .comments_block {
     grid-template-columns: auto;
+    padding: 0 10px;
 
     .author_block {
       .img-fluid {

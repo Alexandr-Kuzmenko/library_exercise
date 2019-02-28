@@ -5,7 +5,7 @@ $(document).on 'turbolinks:load', ->
       $(this).addClass 'btn-danger disabled'
       $(this).html 'Returned'
       return
-    $('#take_book_btn').hover ->
+    $('a[id^="take_book_btn"]').hover ->
       $(this).html 'Take book'
-    $('#take_book_btn').mouseout ->
-      $(this).html 'Book available'
+    $('a[id^="take_book_btn"]').mouseout ->
+      $(this).html 'Available'

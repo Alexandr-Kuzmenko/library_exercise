@@ -22,59 +22,68 @@
     = link_to 'Sign up', '', { id: 'sign_up_modal', 'data-target': '#sign-up-modal',
                                'data-toggle': 'modal', class: 'btn btn-dark' }
 .page_content
-  %tile_block
-    .row.justify-content-center.p-2
-      .col.col-12.col-md-4.col-lg-3.m-0.p-0
-        #book_envelope_block
-          %div
-            - if defined?(@book.envelope)
-              %img.img-fluid{ alt: 'book_envelope', src: @book.envelope.thumb.url }
-            - else
-              = image_tag 'no_envelope.jpg', alt: 'book_envelope', class: 'img-fluid'
-            .caption.align-content-center
-              %button.btn.btn-sm.btn-info.disabled
-                = fa_icon 'heart'
-                %lcount
-                  = @book.likes_count
-              - if current_user
-                - if exist_like?(@book)
-                  = link_to (fa_icon 'thumbs-down'), new_book_like_path(@book),
-                          class: 'btn btn-sm btn-secondary', remote: true, id: 'like'
+  .row.justify-content-center.mb-2
+    .col.col-12.col-md-4.col-lg-3.m-0.p-0
+      .single_envelope_block.mb-2
+        %div.img-thumbnail{ style: 'text-align:center;' }
+          - if @book.envelope.url
+            %img.img-fluid{ alt: 'book_envelope', src: @book.envelope.thumb.url }
+          - else
+            = image_tag 'no_envelope.jpg', alt: 'book_envelope', class: 'img-fluid'
+          .caption
+            .row
+              .col-6
+                .like_wrapper{ id: 'like_wrapper', role: 'button' }
+                  - if current_user
+                    - if exist_like?(@book)
+                      = link_to new_book_like_path(@book), class: 'btn btn-sm btn-secondary',
+                                                           remote: true, id: 'like' do
+                        = fa_icon 'thumbs-down'
+                        %span &nbsp&nbsp&nbsp
+                        %lcount
+                          = @book.likes_count
+                    - else
+                      = link_to new_book_like_path(@book), class: 'btn btn-sm btn-success',
+                                                           remote: true, id: 'like' do
+                        = fa_icon 'thumbs-up'
+                        %span &nbsp&nbsp&nbsp
+                        %lcount
+                          = @book.likes_count
+                  - else
+                    %button.btn.btn-sm.btn-info.disabled
+                      = fa_icon 'heart'
+                      %span &nbsp&nbsp&nbsp
+                      %lcount
+                        = @book.likes_count
+              .col-6
+                - if @book.status
+                  = link_to 'Available', take_book_path(@book), { method: :put, id: 'take_book_btn',
+                                                                       class: 'btn btn-sm btn-success' }
                 - else
-                  = link_to (fa_icon 'thumbs-up'), new_book_like_path(@book),
-                          class: 'btn btn-sm btn-success', remote: true, id: 'like'
-            - if @book.status
-              = link_to 'Book available', take_book_path(@book), { method: :put, id: 'take_book_btn',
-                                                                   class: 'btn btn-sm btn-success btn-block' }
-            - else
-              %btn.btn.btn-sm.btn-danger.btn-block.disabled
-                Book taken
-          #empty_block.div
-
-      .col.col-12.col-md-8.col-lg-9.m-0.p-0
-        #book_title_block
-          %table.table-bordered.table-striped
-            %tbody
-              %tr
-                %td
-                  %span
-                    Full name:
-                %td
-                  = @book.try(:name)
-              %tr
-                %td
-                  %span
-                    Author:
-                %td
-                  = @book.try(:author)
-          #empty_block.div
-        #book_description_block
-          #book_description
-            = @book.try(:description)
-          #empty_block.div
-
-        .d-flex.flex-column.justify-content-center
-          = render 'comments/form'
-        .d-flex.flex-column
-          = render @book.comments.order('created_at desc')
-
+                  %btn.btn.btn-sm.btn-danger.disabled
+                    Book taken
+        %div
+    .col.col-12.col-md-8.col-lg-9.m-0.p-0
+      .book_title_block
+        %table.table-bordered.table-striped.mb-2
+          %tbody
+            %tr
+              %td
+                %span
+                  Full name:
+              %td
+                = @book.try(:name)
+            %tr
+              %td
+                %span
+                  Author:
+              %td
+                = @book.try(:author)
+        %div
+        .book_description
+          = @book.try(:description)
+        %div
+      .d-flex.flex-column.justify-content-center
+        = render 'comments/form'
+      .d-flex.flex-column
+        = render @book.comments.order('created_at desc')

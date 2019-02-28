@@ -10,62 +10,93 @@
   = link_to 'Edit user', edit_user_path(@user), { remote: true, 'data-toggle': 'modal', class: 'btn btn-dark',
                                                   'data-target': '#edit-user-window', id: 'eul' }
 .page_content
-  .row.mt-1
-    .container-fluid.align-items-center
-      .row
-        .col-auto.p-0.mr-1
-          %div.img-thumbnail
-            - if @user.avatar?
-              %img.img-fluid{ alt: 'avatar', src: @user.avatar.url }
-            - else
-              = image_tag 'no_avatar.jpg', alt: 'avatar', class: 'img-fluid'
-            .caption
-              %span
-                Avatar
-        .col-auto.other.p-0
-          %table.table-bordered.table-striped{ style: 'background-color: #DCDCDC;' }
-            %tbody
-              %tr
-                %td
-                  %span
-                    Email:
-                %td
-                  = @user.email
-              %tr
-                %td
-                  %span
-                    Nickname:
-                - if @user.nickname && !@user.nickname.eql?('')
-                  %td
-                    = @user.nickname
-                - else
-                  %td
-                    %span User
-                    = @user.id
+  .row.justify-content-center
+    %div.img-thumbnail.mb-2
+      - if @user.avatar?
+        %img.img-fluid{ alt: 'avatar', src: @user.avatar.url }
+      - else
+        = image_tag 'no_avatar.jpg', alt: 'avatar', class: 'img-fluid'
+      .caption
+        %span
+          Avatar
+  .row.justify-content-center
+    %table.table-bordered.table-striped.mb-2
+      %tbody
+        %tr
+          %td
+            %span
+              Email:
+          %td
+            = @user.email
+        %tr
+          %td
+            %span
+              Nickname:
+          - if @user.nickname && !@user.nickname.eql?('')
+            %td
+              = @user.nickname
+          - else
+            %td
+              %span User
+              = @user.id
   .books_taken_block
-    .row.mt-1
+    .row.justify-content-center.mb-2
       %alert.alert.alert-success{ role: "alert", style: 'width: 50%; height: 40px;' }
         %span.vertical-center
-          Books taken by you subscriptions:
+          Books you have taken
     .row
       - @user.registers.where(expired: false).each_with_index do |reg, index|
-        .col.col-12.col-xl-6
-          .row.justify-content-center.mb-3
-            .col.col-3
-              //- if defined?(reg.book.envelope)
-              %img.img-fluid{ alt: 'book_envelope', src: reg.book.envelope.thumb.url }
-            .col.col-9.other
-              %p
-                Book name:
-                = reg.book.try(:name)
-              %p
-                Author:
-                = reg.book.try(:author)
-              #lcount.p
-                Actuality:
-                = reg.book.likes_count
-              %p
-                = reg.book.try(:description).truncate(100, omission: '...')
-              = link_to 'Look', book_path(reg.book), class: 'btn btn-primary'
-              = link_to 'Return', return_book_path(reg.book), { method: :put, remote: true, id: "return_btn#{index + 1}",
-                                                                class: 'btn btn-primary' }
+        .col.col-12.col-xl-6.m-0.p-0
+          .row.justify-content-center.mb-2
+            .col.col-3.m-0.p-0
+              .book_envelope_block
+                %div.img-thumbnail.mb-1{ style: 'text-align:center;' }
+                  = link_to book_path(reg.book) do
+                    - if reg.book.envelope.url
+                      %img.img-fluid.mb-1{ alt: 'book_envelope', src: reg.book.envelope.thumb.url }
+                    - else
+                      = image_tag 'no_envelope.jpg', alt: 'book_envelope', class: 'img-fluid mb-1'
+                  .caption{ style: 'text-align:center; width: 100%;' }
+                    = link_to 'Return', return_book_path(reg.book), { method: :put, remote: true,
+                                                                      id: "return_btn#{ index + 1 }",
+                                                                      class: 'btn btn-sm btn-block btn-primary' }
+            .col.col-9.other.m-0.p-0
+              .book_title_block
+                %table.table-bordered.table-striped.mb-2
+                  %tbody
+                    %tr
+                      %td
+                        %span
+                          Full name:
+                      %td
+                        = reg.book.try(:name)
+                    %tr
+                      %td
+                        %span
+                          Author:
+                      %td
+                        = reg.book.try(:author)
+                    %tr
+                      %td
+                        %span
+                          Relevance:
+                      %td
+                        .like_wrapper{ id: "like_wrapper#{ index + 1 }", role: 'button' }
+                          - if exist_like?(reg.book)
+                            = link_to new_book_like_path(reg.book), class: 'btn btn-sm btn-secondary',
+                                                                    remote: true, id: "like#{ index + 1 }" do
+                              = fa_icon 'thumbs-down'
+                              %span &nbsp&nbsp&nbsp
+                              %lcount
+                                = reg.book.likes_count
+                          - else
+                            = link_to new_book_like_path(reg.book), class: 'btn btn-sm btn-success',
+                                                                    remote: true, id: "like#{ index + 1 }" do
+                              = fa_icon 'thumbs-up'
+                              %span &nbsp&nbsp&nbsp
+                              %lcount
+                                = reg.book.likes_count
+                %div
+                .book_description.mb-2
+                  = reg.book.try(:description)
+                %div

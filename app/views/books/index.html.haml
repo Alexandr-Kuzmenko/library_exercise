@@ -33,43 +33,36 @@
           .col-4.m-0.p-0
             #subhead_2.btn.btn-block.btn-success.collapsed{ 'aria-controls' => 'submenu_2', 'data-target' => '#submenu_2',
                                                             'aria-expanded' => 'true', 'data-toggle' => 'collapse' }
-              %span Main list
+              %span Available list
           .col-4.m-0.p-0
             #subhead_3.btn.btn-block.btn-secondary.collapsed{ 'aria-controls' => 'submenu_3', 'data-target' => '#submenu_3',
                                                               'aria-expanded' => 'true', 'data-toggle' => 'collapse' }
               %span Books taken
         #submenu_1.collapse.show{ 'aria-labelledby' => 'subhead_1', 'data-parent' => '#accordion' }
-          .card-body
+          .card-body{ style: 'padding: 10px 0 0 0;' }
             .row
               - @top_books.each_with_index do |top_bk, index|
                 .col.col-12.col-xl-6.m-0.p-0
-                  .row.justify-content-center.mb-3
+                  .row.justify-content-center.mb-2
                     .col.col-3.m-0.p-0
-                      #book_envelope_block
-                        %div
+                      .book_envelope_block
+                        %div.img-thumbnail.mb-1{ style: 'text-align:center;' }
                           = link_to book_path(top_bk) do
-                            - if defined?(top_bk.envelope)
-                              %img.img-fluid{ alt: 'book_envelope', src: top_bk.envelope.thumb.url }
+                            - if top_bk.envelope.url
+                              %img.img-fluid.mb-1{ alt: 'book_envelope', src: top_bk.envelope.thumb.url }
                             - else
-                              = image_tag 'no_envelope.jpg', alt: 'book_envelope', class: 'img-fluid'
-                          .caption.align-content-center
-                            %button.btn.btn-sm.btn-info.disabled
-                              = fa_icon 'heart'
-                              %lcount
-                                = top_bk.likes_count
-
-                          - if top_bk.status?
-                            %btn.btn.btn-sm.btn-success.btn-block.disabled
-                              free
-                            -#= link_to 'Book available', take_book_path(@book), { method: :put, id: 'take_book_btn',
-                            -#                                                     class: 'btn btn-sm btn-success btn-block' }
-                          - else
-                            %btn.btn.btn-sm.btn-danger.btn-block.disabled
-                              Taken
-                        #empty_block.div
+                              = image_tag 'no_envelope.jpg', alt: 'book_envelope', class: 'img-fluid mb-1'
+                          .caption{ style: 'text-align:center; width: 100%;' }
+                            - if top_bk.status
+                              = link_to 'Available', take_book_path(top_bk), { method: :put,
+                                                                             id: "take_book_btn#{ index + 1 }",
+                                                                             class: 'btn btn-sm btn-block btn-success' }
+                            - else
+                              %btn.btn.btn-sm.btn-block.btn-danger.disabled
+                                Book taken
                     .col.col-9.other.m-0.p-0
-                      #book_title_block
-                        %table.table-bordered.table-striped
+                      .book_title_block
+                        %table.table-bordered.table-striped.mb-2
                           %tbody
                             %tr
                               %td
@@ -83,65 +76,129 @@
                                   Author:
                               %td
                                 = top_bk.try(:author)
-                        #empty_block.div
-
-                      #book_description_block
-                        #book_description
+                            %tr
+                              %td
+                                %span
+                                  Relevance:
+                              %td
+                                .like_wrapper
+                                  %button.btn.btn-sm.btn-info.disabled
+                                    = fa_icon 'heart'
+                                    %span &nbsp&nbsp&nbsp
+                                    %lcount
+                                      = top_bk.likes_count
+                        %div
+                        .book_description.mb-2
                           = top_bk.try(:description)
-                        #empty_block.div
-                      -#.truncate(100, omission: '...')
-                      -#%btn.btn
-                      -#  = link_to 'Edit', edit_book_path(top_bk), { remote: true, 'data-toggle': 'modal',
-                      -#                                          'data-target': '#edit-book-window', id: "top_emw#{ 1 + index }" }
+                        %div
+                        -#.truncate(100, omission: '...')
         #submenu_2.collapse{ 'aria-labelledby' => 'subhead_2', 'data-parent' => '#accordion' }
-          .card-body
+          .card-body{ style: 'padding: 10px 0 0 0;' }
             .row
               - @books.each_with_index do |bk, index|
                 .col.col-12.col-xl-6.m-0.p-0
-                  .row.justify-content-center.mb-3
-                    .col.col-3
-                      - if defined?(bk.envelope)
-                        %img.img-fluid{ alt: 'book_envelope', src: bk.envelope.thumb.url }
-                    .col.col-9.other
-                      %p
-                        Book name:
-                        = bk.try(:name)
-                      %p
-                        Author:
-                        = bk.try(:author)
-                      #lcount.p
-                        Actuality:
-                        = bk.likes_count
-                      %p
-                        = bk.try(:description).truncate(100, omission: '...')
-                      %btn.btn
-                        = link_to 'Look', book_path(bk)
-                      %btn.btn
-                        = link_to 'Edit', edit_book_path(bk), { remote: true, 'data-toggle': 'modal',
-                                                                'data-target': '#edit-book-window', id: "emw#{ 1+ index }" }
+                  .row.justify-content-center.mb-2
+                    .col.col-3.m-0.p-0
+                      .book_envelope_block
+                        %div.img-thumbnail.mb-1{ style: 'text-align:center;' }
+                          = link_to book_path(bk) do
+                            - if bk.envelope.url
+                              %img.img-fluid.mb-1{ alt: 'book_envelope', src: bk.envelope.thumb.url }
+                            - else
+                              = image_tag 'no_envelope.jpg', alt: 'book_envelope', class: 'img-fluid mb-1'
+                            .caption{ style: 'text-align:center; width: 100%;' }
+                              - if bk.status
+                                = link_to 'Available', take_book_path(bk), { method: :put,
+                                                                             id: "take_book_btn#{ index + 1 }",
+                                                                             class: 'btn btn-sm btn-block btn-success' }
+                              - else
+                                %btn.btn.btn-sm.btn-block.btn-danger.disabled
+                                  Book taken
+                    .col.col-9.other.m-0.p-0
+                      .book_title_block
+                        %table.table-bordered.table-striped.mb-2
+                          %tbody
+                            %tr
+                              %td
+                                %span
+                                  Full name:
+                              %td
+                                = bk.try(:name)
+                            %tr
+                              %td
+                                %span
+                                  Author:
+                              %td
+                                = bk.try(:author)
+                            %tr
+                              %td
+                                %span
+                                  Relevance:
+                              %td
+                                .like_wrapper
+                                  %button.btn.btn-sm.btn-info.disabled
+                                    = fa_icon 'heart'
+                                    %span &nbsp&nbsp&nbsp
+                                    %lcount
+                                      = bk.likes_count
+                        %div
+                        .book_description.mb-2
+                          = bk.try(:description)
+                        %div
         #submenu_3.collapse{ 'aria-labelledby' => 'subhead_3', 'data-parent' => '#accordion' }
-          .card-body
+          .card-body{ style: 'padding: 10px 0 0 0;' }
             - if @books_taken.first
               .row
                 - @books_taken.each_with_index do |taken_bk, index|
                   .col.col-12.col-xl-6.m-0.p-0
-                    .row.justify-content-center.mb-3
-                      .col.col-3
-                        - if defined?(taken_bk.envelope)
-                          %img.img-fluid{ alt: 'book_envelope', src: taken_bk.envelope.thumb.url }
-                      .col.col-9.other
-                        %p
-                          Book name:
-                          = taken_bk.try(:name)
-                        %p
-                          Author:
-                          = taken_bk.try(:author)
-                        #lcount.p
-                          Actuality:
-                          = taken_bk.likes_count
-                        %p
-                          = taken_bk.try(:description).truncate(100, omission: '...')
-                        %btn.btn.disabled
-                          %span Taken by ...
+                    .row.justify-content-center.mb-2
+                      .col.col-3.m-0.p-0
+                        .book_envelope_block
+                          %div.img-thumbnail.mb-1{ style: 'text-align:center;' }
+                            = link_to book_path(taken_bk) do
+                              - if taken_bk.envelope.url
+                                %img.img-fluid.mb-1{ alt: 'book_envelope', src: taken_bk.envelope.thumb.url }
+                              - else
+                                = image_tag 'no_envelope.jpg', alt: 'book_envelope', class: 'img-fluid mb-1'
+                      .col.col-9.other.m-0.p-0
+                        .book_title_block
+                          %table.table-bordered.table-striped.mb-2
+                            %tbody
+                              %tr
+                                %td
+                                  %span
+                                    Full name:
+                                %td
+                                  = taken_bk.try(:name)
+                              %tr
+                                %td
+                                  %span
+                                    Author:
+                                %td
+                                  = taken_bk.try(:author)
+                              %tr
+                                %td
+                                  %span
+                                    Relevance:
+                                %td
+                                  .like_wrapper
+                                    %button.btn.btn-sm.btn-info.disabled
+                                      = fa_icon 'heart'
+                                      %span &nbsp&nbsp&nbsp
+                                      %lcount
+                                        = taken_bk.likes_count
+                          %div
+                          .book_description.mb-2
+                            = taken_bk.try(:description)
+                          %div
+                          %ul
+                            - taken_bk.registers.where(expired: false).each do |reader|
+                              %li
+                                %span  Taken by User:
+                                - if reader.user.nickname
+                                  = reader.user.nickname
+                                - else
+                                  %span User
+                                  = reader.user.id
             - else
               %span Empty
