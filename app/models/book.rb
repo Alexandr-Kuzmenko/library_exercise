@@ -16,7 +16,7 @@ class Book
   field :likes_count, type: Integer, default: 0
 
   field :status, type: Boolean, default: true
-  has_many :registers
+  has_many :registers, dependent: :nullify
 
   embeds_many :likes
   embeds_many :comments
