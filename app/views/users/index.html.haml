@@ -2,13 +2,17 @@
   .modal-dialog.modal-dialog-centered{ role: 'document' }
     .modal-content
 .main_nav_bar
-  = link_to 'Root', root_path, class: 'btn btn-dark'
+  #menu-overlay-btn.btn.btn-primary
+    = fa_icon 'navicon'
+    = link_to 'Edit user', edit_user_path(@user), { remote: true, 'data-toggle': 'modal', class: 'btn btn-primary',
+                                                            'data-target': '#edit-user-window', id: 'eul' }
+
   - if request.referer && request.referer != request.original_url
-    = link_to 'Back', request.referrer, id: 'back', class: 'btn btn-dark'
+    = link_to request.referrer, id: 'log-overlay-btn', class: 'btn btn-primary' do
+      = fa_icon 'chevron-left'
   - else
-    = link_to 'Back', books_path, id: 'back', class: 'btn btn-dark'
-  = link_to 'Edit user', edit_user_path(@user), { remote: true, 'data-toggle': 'modal', class: 'btn btn-dark',
-                                                  'data-target': '#edit-user-window', id: 'eul' }
+    = link_to books_path, id: 'log-overlay-btn', class: 'btn btn-primary' do
+      = fa_icon 'chevron-left'
 .page_content
   .row.justify-content-center
     %div.img-thumbnail.mb-2
@@ -83,15 +87,15 @@
                       %td
                         .like_wrapper{ id: "like_wrapper#{ index + 1 }", role: 'button' }
                           - if exist_like?(reg.book)
-                            = link_to new_book_like_path(reg.book), class: 'btn btn-sm btn-secondary',
-                                                                    remote: true, id: "like#{ index + 1 }" do
+                            = link_to book_like_path(reg.book, reg.book.likes.find_by(user_id: current_user.id)), method: :delete,
+                                                     class: 'btn btn-sm btn-secondary', remote: true, id: "like#{ index + 1 }" do
                               = fa_icon 'thumbs-down'
                               %span &nbsp&nbsp&nbsp
                               %lcount
                                 = reg.book.likes_count
                           - else
-                            = link_to new_book_like_path(reg.book), class: 'btn btn-sm btn-success',
-                                                                    remote: true, id: "like#{ index + 1 }" do
+                            = link_to book_likes_path(reg.book), class: 'btn btn-sm btn-success', method: :post,
+                                                                 remote: true, id: "like#{ index + 1 }" do
                               = fa_icon 'thumbs-up'
                               %span &nbsp&nbsp&nbsp
                               %lcount

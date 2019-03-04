@@ -1,8 +1,8 @@
 @import 'bootstrap';
 @import 'font-awesome';
+@import 'books';
 @import 'comments';
 @import 'registers';
-@import 'books';
 
 html, body {
   min-height: 100%;
@@ -10,7 +10,6 @@ html, body {
   margin: 0;
   padding: 0;
 }
-
 /* Scroll */
 ::-webkit-scrollbar {
   width: 10px;
@@ -24,21 +23,20 @@ html, body {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
-
 body {
-  min-width: 320px;
+  min-width: 360px;
   max-width: 100%;
   background: LightGrey;
-  body table {
-    text-align: left;
-    vertical-align: middle;
-  }
-  body .info_text_block {
-    padding: 2px 5px;
-    background-color: #DCDCDC;
-    word-wrap: break-word;
-    border: solid 1px #000;
-    border-radius: 2px;
+
+  /* page structure elements */
+  header {
+    display: block;
+    position: fixed;
+    min-height: 40px;
+    height: 100vh;
+    width: 100%;
+    top: 0;
+    left: 10px;
   }
   body div.card {
     margin: 0 5px 5px 5px;
@@ -47,26 +45,107 @@ body {
     background: #DCDCDC;
     word-wrap: break-word;
   }
+  body .modal-content {
+    padding: 5px;
+  }
+  body .modal-content .modal-header {
+    margin-bottom: 5px;
+    padding: 0;
+  }
+  body .modal-content .modal-body {
+    padding: 0;
+  }
+  body .content {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    max-height: 100vh;
+    padding: 0;
+    overflow-y: visible;
+  }
   /* Navigation button container styles */
   .main_nav_bar {
-    //position: absolute;
-    position: relative;
     --max-height: 0;
     height: 50px;
   }
-  .page_content {
-    position: relative;
-  }
   .main_nav_bar, .page_content {
+    position: relative;
     margin: 0;
     padding: 0;
     width: 100%;
-    //top: 0;
-    //right: 0;
-    //bottom: 0;
-    //left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   }
   /* Navigation buttons styles */
+  #menu-overlay-btn,
+  #log-overlay-btn {
+    position: fixed;
+    width: 40px;
+    top: 0;
+    z-index: 100;
+  }
+  #menu-overlay-btn {
+    left: 0;
+  }
+  #log-overlay-btn {
+    right: 0;
+  }
+  .left-overlay {
+    height: 100%;
+    width: 0;
+    top: 0;
+    left: 0;
+    transition: all .5s linear;
+    transition-property: width;
+    background-color: rgba(0, 0, 0, 0.9);
+  }
+  .left-overlay .overlay {
+    display: none;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    z-index: 99;
+    padding-top: 40px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    opacity: 1 !important;
+    text-align: center;
+    word-wrap: break-word;
+  }
+  .overlay p {
+    color: white;
+  }
+  .overlay span {
+    color: white;
+  }
+  /* Website links style */
+  a {
+    text-decoration: none;
+    color: #007bff;
+    display: block;
+    transition: all 0.5s linear;
+  }
+  a:hover,
+  a:focus {
+    text-decoration: none;
+    color: #8B0000;
+  }
+  .overlay a {
+    padding: 5px;
+  }
+  .collapse.show .li a {
+    color: yellow;
+  }
+  /* Alert styles*/
+  .alert {
+    height: 40px;
+    width: 100%;
+    margin: 0;
+    opacity: 0.75;
+  }
+  /* varia */
   .row {
     margin: 0;
     padding: 0;
@@ -76,12 +155,6 @@ body {
     text-align: center;
     padding: 2px;
   }
-  .alert {
-    height: 40px;
-    width: 100%;
-    margin: 0;
-    opacity: 0.5;
-  }
   .vertical-center {
     margin: 0;
     position: absolute;
@@ -90,3 +163,9 @@ body {
     transform: translateY(-50%);
   }
 }
+
+//body div.img-thumbnail {
+//  background-color: #D3D3D3;
+//  border: 1px solid black;
+//  text-align: center;
+//}

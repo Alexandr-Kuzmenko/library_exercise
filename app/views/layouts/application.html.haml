@@ -12,7 +12,7 @@
     %meta{ name: :viewport, content: 'width=device-width, initial-scale=0.8, shrink-to-fit=no' }
   %body
     #sign-in-modal.modal.fade{ 'aria-hidden': 'true', role: 'dialog', tabindex: '-1' }
-      .modal-dialog.modal-dialog-centered{ role: 'document'}
+      .modal-dialog.modal-dialog-centered{ role: 'document' }
         .modal-content
           .modal-header
             %button.btn.btn-outline-primary.disabled
@@ -33,7 +33,29 @@
               %span{ 'aria-hidden' => 'true' } ×
           .modal-body
             = render 'devise/registrations/modal'
+    #new-book-window.modal.hide.fade{ 'aria-hidden': 'true', role: 'dialog', tabindex: '-1' }
+      .modal-dialog.modal-dialog-centered{ role: 'document' }
+        .modal-content
     %header
+      .overlay-container
+        .left-overlay
+          .overlay
+            = link_to 'Main page', root_path
+            -#= link_to user_google_oauth2_omniauth_authorize_path do
+            -#  = fa_icon 'google'
+            - if user_signed_in?
+              = link_to 'Profile', user_index_path
+              = link_to 'New book', new_book_path, { remote: true, 'data-toggle': 'modal', id: 'nmw',
+                                                     'data-target': '#new-book-window' }
+              = link_to 'Log out', destroy_user_session_path, method: :delete
+            - else
+              = link_to 'Some_New(popover)', '#', { remote: true, 'data-content' => 'You have to login at first',
+                                                    'data-toggle' => 'popover', 'data-placement' => 'bottom' }
+              %button.btn.btn-danger{ 'data-content' => 'You have to login at first', 'data-toggle' => 'popover',
+                                      'data-placement' => 'bottom' } Some_New(popover)
+              = link_to 'Sign in', '#', { id: 'login_modal', 'data-target': '#sign-in-modal', 'data-toggle': 'modal' }
+              = link_to 'Sign up', '#', { id: 'sign_up_modal', 'data-target': '#sign-up-modal', 'data-toggle': 'modal' }
+    .alert_container
       - flash.each do |key, value|
         %div{class: "alert alert-#{key} alert-dismissible fade show", role: "alert" }
           %strong.vertical-center
@@ -41,10 +63,3 @@
           %button.vertical-center.close{ "aria-label": "Close", "data-dismiss": "alert", type: "button", style: 'top: 50%;' }
             %span{ "aria-hidden": "true" } ×
     = yield
-
-
-
-
-
-
-

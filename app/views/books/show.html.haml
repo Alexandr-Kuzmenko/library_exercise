@@ -2,25 +2,19 @@
   .modal-dialog.modal-dialog-centered{ role: 'document' }
     .modal-content
 .main_nav_bar
-  = link_to 'Root', root_path, class: 'btn btn-dark'
+  #menu-overlay-btn.btn.btn-primary
+    = fa_icon 'navicon'
+    - if user_signed_in?
+      = link_to 'Edit book', edit_book_path(@book), { remote: true, class: 'btn btn-primary', 'data-toggle': 'modal',
+                                                      'data-target': '#edit-book-window', id: 'emw' }
+      = link_to 'Delete book', book_path(@book), class: 'btn btn-primary', method: :delete,
+                                                        data: { confirm: 'Is it certain?' }
   - if request.referer && request.referer != request.original_url
-    = link_to 'Back', request.referrer, id: 'back', class: 'btn btn-dark'
+    = link_to request.referrer, id: 'log-overlay-btn', class: 'btn btn-primary' do
+      = fa_icon 'chevron-left'
   - else
-    = link_to 'Back', books_path, id: 'back', class: 'btn btn-dark'
-  = link_to 'Edit book', edit_book_path(@book), { remote: true, class: 'btn btn-dark', 'data-toggle': 'modal',
-                                             'data-target': '#edit-book-window', id: 'emw' }
-
-
-  = link_to 'Delete book', book_path(@book), class: 'btn btn-dark', method: :delete,
-                                             data: { confirm: 'Is it certain?' }
-  - if user_signed_in?
-    = link_to 'Profile', user_index_path, class: 'btn btn-dark'
-    = link_to 'Log out', destroy_user_session_path, class: 'btn btn-dark', method: :delete
-  - else
-    = link_to 'Sign in', '', { id: 'login_modal', 'data-target': '#sign-in-modal',
-                               'data-toggle': 'modal', class: 'btn btn-dark' }
-    = link_to 'Sign up', '', { id: 'sign_up_modal', 'data-target': '#sign-up-modal',
-                               'data-toggle': 'modal', class: 'btn btn-dark' }
+    = link_to books_path, id: 'log-overlay-btn', class: 'btn btn-primary' do
+      = fa_icon 'chevron-left'
 .page_content
   .row.justify-content-center.mb-2
     .col.col-12.col-md-4.col-lg-3.m-0.p-0
@@ -36,15 +30,15 @@
                 .like_wrapper{ id: 'like_wrapper', role: 'button' }
                   - if current_user
                     - if exist_like?(@book)
-                      = link_to new_book_like_path(@book), class: 'btn btn-sm btn-secondary',
-                                                           remote: true, id: 'like' do
+                      = link_to book_like_path(@book, @book.likes.find_by(user_id: current_user.id)), method: :delete,
+                                               class: 'btn btn-sm btn-secondary', remote: true, id: 'like' do
                         = fa_icon 'thumbs-down'
                         %span &nbsp&nbsp&nbsp
                         %lcount
                           = @book.likes_count
                     - else
-                      = link_to new_book_like_path(@book), class: 'btn btn-sm btn-success',
-                                                           remote: true, id: 'like' do
+                      = link_to book_likes_path(@book), class: 'btn btn-sm btn-success', method: :post,
+                                                        remote: true, id: 'like' do
                         = fa_icon 'thumbs-up'
                         %span &nbsp&nbsp&nbsp
                         %lcount

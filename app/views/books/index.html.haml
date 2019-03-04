@@ -1,26 +1,12 @@
-#new-book-window.modal.hide.fade{ 'aria-hidden': 'true', role: 'dialog', tabindex: '-1' }
-  .modal-dialog.modal-dialog-centered{ role: 'document' }
-    .modal-content
-
-#edit-book-window.modal.hide.fade{ 'aria-hidden': 'true', role: 'dialog', tabindex: '-1' }
-  .modal-dialog.modal-dialog-centered{ role: 'document' }
-    .modal-content
 .main_nav_bar
-  - if user_signed_in?
-    = link_to 'New', new_book_path, { remote: true, 'data-toggle': 'modal', class: 'btn btn-dark' ,
-                                    'data-target': '#new-book-window', id: 'nmw' }
-    = link_to 'Profile', user_index_path, class: 'btn btn-dark'
-    = link_to 'Log out', destroy_user_session_path, class: 'btn btn-dark', method: :delete
+  #menu-overlay-btn.btn.btn-primary
+    = fa_icon 'navicon'
+  - if request.referer && request.referer != request.original_url
+    = link_to request.referrer, id: 'log-overlay-btn', class: 'btn btn-primary' do
+      = fa_icon 'chevron-left'
   - else
-    = link_to 'New', '', { remote: true, 'data-content' => 'You have to login at first',
-                           'data-toggle' => 'popover', 'data-placement' => 'bottom' }
-
-    %button.btn.btn-danger{ 'data-content' => 'You have to login at first', 'data-toggle' => 'popover',
-                                       'data-placement' => 'bottom' } New
-    = link_to 'Sign in', '', { id: 'login_modal', 'data-target': '#sign-in-modal',
-                               'data-toggle': 'modal', class: 'btn btn-dark' }
-    = link_to 'Sign up', '', { id: 'sign_up_modal', 'data-target': '#sign-up-modal',
-                               'data-toggle': 'modal', class: 'btn btn-dark' }
+    = link_to books_path, id: 'log-overlay-btn', class: 'btn btn-primary' do
+      = fa_icon 'chevron-left'
 .page_content
   - if Book.first
     #accordion
