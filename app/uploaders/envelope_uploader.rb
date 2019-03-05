@@ -3,7 +3,7 @@ class EnvelopeUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
 
-  storage :file if Rails.env.development?
+  storage :file if Rails.env.development? || Rails.env.test?
   storage :fog if Rails.env.production?
 
   def store_dir
@@ -38,7 +38,7 @@ class EnvelopeUploader < CarrierWave::Uploader::Base
   end
 
   def extension_whitelist
-    %w(jpg jpeg png)
+    %w[jpg jpeg png]
   end
 
   def size_range

@@ -49,4 +49,8 @@ class AdminUser
   def password_required?
     new_record? ? false : super
   end
+
+  def will_save_change_to_email?
+    false
+  end
 end

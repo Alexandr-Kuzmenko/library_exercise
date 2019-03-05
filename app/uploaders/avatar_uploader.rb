@@ -3,12 +3,9 @@ class AvatarUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
 
-  # Choose what kind of storage to use for this uploader:
-  storage :file if Rails.env.development?
+  storage :file if Rails.env.development? || Rails.env.test?
   storage :fog if Rails.env.production?
 
-  # Override the directory where uploaded files will be stored.
-  # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
@@ -34,7 +31,7 @@ class AvatarUploader < CarrierWave::Uploader::Base
   # end
 
   def extension_whitelist
-    %w(jpg jpeg png)
+    %w[jpg jpeg png]
   end
 
   def size_range
