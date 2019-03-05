@@ -1,5 +1,6 @@
 FactoryBot.define do
-  factory :book_history do
-    
+  factory :register, class: Register do
+    book
+    user
   end
 end
