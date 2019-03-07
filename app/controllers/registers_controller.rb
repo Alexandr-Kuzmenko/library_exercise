@@ -1,6 +1,5 @@
 class RegistersController < ApplicationController
-  before_action :authenticate_user!
-  before_action :load_register, only: :delete
+  before_action :load_register, only: :destroy
 
   def index
     @registers = Register.all
@@ -24,7 +23,6 @@ class RegistersController < ApplicationController
 
   def destroy
     return unless current_admin_user
-
     if @register.destroy
       flash[:success] = 'Deleting successful'
     else

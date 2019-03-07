@@ -16,9 +16,10 @@ require 'devise'
 require 'faker'
 require 'selenium-webdriver'
 require 'support/factory_bot'
+require 'support/redirect_back'
 
 Mongoid.load!(Rails.root.join('config', 'mongoid.yml'))
-# Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec', 'support', 'shared_examples', '*.rb')].each { |f| require f }
 
 # begin
 #   ActiveRecord::Migration.maintain_test_schema!
@@ -72,6 +73,7 @@ RSpec.configure do |config|
   config.include Capybara::DSL
   config.include FactoryBot::Syntax::Methods
   config.include Warden::Test::Helpers
+  config.include RedirectBack, type: :controller
 
   config.before(:suite) do
     DatabaseCleaner[:mongoid].clean_with(:truncation)

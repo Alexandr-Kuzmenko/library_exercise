@@ -53,14 +53,14 @@ class BooksController < ApplicationController
 
   def return
     @book.update_attributes(status: true)
-    @register = @book.registers.where(user_id: current_user.id).sort( { 'created_at': -1 } ).first
-    @register.update_attributes(expired: true)
+    @register = @book.registers.where(user_id: current_user.id, expired: false).sort( { 'created_at': -1 } )&.first
+    @register&.update_attributes(expired: true)
   end
 
   private
 
   def book_params
-    params.require(:book).permit(:name, :author, :envelope, :description)
+    params.require(:book).permit(:name, :author, :envelope, :description, :status)
   end
 
   def redirection

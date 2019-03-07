@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index, :show]
-  before_action :load_comment, only: [:show, :edit, :update, :destroy]
+  before_action :load_comment, only: [:show, :edit, :update, :destroy, :author_matched]
   before_action :load_parent_book, only: [:index, :new, :create, :load_comment]
 
   def index
@@ -26,20 +26,36 @@ class CommentsController < ApplicationController
   end
 
   def update
-    if current_admin_user
-      @comment.update_attributes(comment_params)
-    else
-      flash[:warning] = 'Unpermitted operation'
+    if author_matched
+      if @comment.update_attributes(comment_params)
+        flash[:success] = 'Comment text changed'
+      else
+        flash[:warning] = 'Unpermitted operation'
+      end
     end
     redirection
   end
 
   def destroy
-    @comment.destroy
+    if author_matched
+      if @comment.destroy
+        flash[:success] = 'Comment deleted'
+      else
+        flash[:warning] = 'Unpermitted operation'
+      end
+    end
     redirection
   end
 
   private
+
+  def author_matched
+    return false unless user = current_admin_user || current_user
+    return true if user.class.eql?(AdminUser)
+    return true if @comment.commentator == user.class.to_s && @comment.commentator_id == user.id.to_s
+
+    false
+  end
 
   def load_parent_book
     @book = Book.find(params[:book_id])

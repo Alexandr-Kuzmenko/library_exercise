@@ -14,10 +14,10 @@ class LikesController < ApplicationController
 
   def destroy
     respond_to do |format|
-      format.html {
+      format.json {
         @book = Book.find(params[:book_id])
         @like = @book&.likes&.find_by user_id: current_user.id
-        @like.destroy
+        @like&.destroy
         # flash[:warning] = 'Nailed'
         redirect_back fallback_location: books_url
       }

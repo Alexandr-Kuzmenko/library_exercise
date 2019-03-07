@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe AdminUser, type: :model do
-  let(:admin) { FactoryBot.create(:admin_user) }
+  let(:admin) { FactoryBot.create(:admin) }
   # let(:admin_comments) { 3.times { FactoryBot.create(:comment, commentator: admin.class, commentator_id: admin.id) } }
 
   describe 'basic mongoid checks' do
@@ -22,26 +22,26 @@ RSpec.describe AdminUser, type: :model do
 
   describe 'validations' do
     it 'email presence' do
-      expect(build(:admin_user, email: nil)).to_not be_valid
+      expect(build(:admin, email: nil)).to_not be_valid
     end
 
     it 'email uniqueness' do
-      expect(build(:admin_user, email: admin.email)).to_not be_valid
+      expect(build(:admin, email: admin.email)).to_not be_valid
     end
 
     it 'nickname uniqueness' do
-      expect(build(:admin_user, nickname: admin.nickname)).to_not be_valid
+      expect(build(:admin, nickname: admin.nickname)).to_not be_valid
     end
 
     it 'invalid password length (not within [6..20])' do
-      expect(build(:admin_user, password: '12345')).to_not be_valid
-      expect(build(:admin_user, password: '123456789012345678901')).to_not be_valid
-      expect(build(:admin_user, password: nil)).to_not be_valid
+      expect(build(:admin, password: '12345')).to_not be_valid
+      expect(build(:admin, password: '123456789012345678901')).to_not be_valid
+      expect(build(:admin, password: nil)).to_not be_valid
     end
 
     it 'valid password length (within [6..20])' do
-      expect(build(:admin_user, password: '123456')).to be_valid
-      expect(build(:admin_user, password: '123456assghr9254yuy3')).to be_valid
+      expect(build(:admin, password: '123456')).to be_valid
+      expect(build(:admin, password: '123456assghr9254yuy3')).to be_valid
     end
   end
 
