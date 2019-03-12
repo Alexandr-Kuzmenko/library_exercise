@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  devise_for :admin_users
-  devise_for :users
-  resources :books, :comments, :users
+  devise_for :admin_users, :users
+  resources :users, except: %i[index show new]
+  resources :books, :comments
   resources :registers, except: %i[show edit update]
 
   resources :books do
@@ -16,5 +16,5 @@ Rails.application.routes.draw do
 
   match 'books/:id', to: 'books#show', via: %i[get post]
   root to: 'books#index'
-  get 'user/index', to: 'users#index'
+  get 'users/index', to: 'users#index'
 end

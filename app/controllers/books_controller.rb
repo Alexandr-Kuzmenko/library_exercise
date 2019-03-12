@@ -1,6 +1,6 @@
 class BooksController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index, :show]
-  before_action :load_book, only: [:show, :edit, :update, :destroy, :take, :return]
+  skip_before_action :authenticate_user!, only: %i[index show]
+  before_action :load_book, only: %i[show edit update destroy take return]
 
   def index
     @top_books = Book.limit(5).order('likes_count desc')

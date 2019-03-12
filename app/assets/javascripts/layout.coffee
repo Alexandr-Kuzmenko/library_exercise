@@ -10,38 +10,39 @@ $(document).on 'turbolinks:load', ->
         $('.btn').blur()
       ), 2000
     return
-
-# left menu options
-overlayTimer = undefined
 $(document).on 'turbolinks:load', ->
   $(document).ready ->
     $('#menu-overlay-btn').click ->
-      $('.page_content').fadeTo 500, 0.5
-      $('.page_content').css
-        'z-index': '-2'
-      clearTimeout overlayTimer
-      overlayTimer = setTimeout((->
-        switch $('#menu-overlay-btn').html()
-          when '\n<i class="fa fa-navicon"></i>\n'
-            $('#menu-overlay-btn').html '\n<i class="fa fa-chevron-left"></i>\n'
-            $('.left-overlay').width 180
-            setTimeout (->
-              $('.left-overlay .overlay').css
-                'display': 'block';
-              return
-            ), 500
-          when '\n<i class="fa fa-chevron-left"></i>\n'
-            $('#menu-overlay-btn').html '\n<i class="fa fa-navicon"></i>\n'
-            $('.left-overlay .overlay').css
-              'display': 'none';
-            $('.left-overlay').width 0
-
-            $('.page_content').fadeTo 500, 1
-            setTimeout (->
-              $('.page_content').css
-                'z-index': 'auto'
-              return
-            ), 500
-      ), 300)
-      return
+      switch $('#menu-overlay-btn').html()
+        when '\n<i class="fa fa-navicon"></i>\n'
+          $('header').css
+            'z-index':'99'
+          $('#menu-overlay-btn').html '\n<i class="fa fa-chevron-left"></i>\n'
+          $('.left-overlay .overlay-content').show()
+          $('.left-overlay .overlay').show()
+          $('.left-overlay').addClass 'toggled'
+          $('.left-overlay .overlay-content').fadeTo 250, 1
+          $('.left-overlay .overlay').fadeTo 250, 1
+        when '\n<i class="fa fa-chevron-left"></i>\n'
+          $('header').css
+            'z-index':'auto'
+          $('#menu-overlay-btn').html '\n<i class="fa fa-navicon"></i>\n'
+          $('.left-overlay .overlay-content').fadeTo 250, 0
+          $('.left-overlay .overlay').fadeTo 250, 0
+          setTimeout (->
+            $('.left-overlay .overlay-content').hide()
+            $('.left-overlay .overlay').hide()
+            $('.left-overlay').removeClass 'toggled'
+          ), 250
     return
+$(document).on 'turbolinks:load', ->
+  $(document).ready ->
+    $('.left-overlay .overlay').click ->
+      $('#menu-overlay-btn').click()
+$(document).on 'turbolinks:load', ->
+  $(document).ready ->
+    setTimeout (->
+        $('.alert').hide()
+    ), 10000
+
+

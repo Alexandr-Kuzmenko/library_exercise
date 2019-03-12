@@ -1,12 +1,11 @@
-.main_nav_bar
-  #menu-overlay-btn.btn.btn-primary
-    = fa_icon 'navicon'
-  - if request.referer && request.referer != request.original_url
-    = link_to request.referrer, id: 'log-overlay-btn', class: 'btn btn-primary' do
-      = fa_icon 'chevron-left'
-  - else
-    = link_to books_path, id: 'log-overlay-btn', class: 'btn btn-primary' do
-      = fa_icon 'chevron-left'
+#menu-overlay-btn.btn.btn-primary
+  = fa_icon 'navicon'
+- if request.referer && request.referer != request.original_url
+  = link_to request.referrer, id: 'log-overlay-btn', class: 'btn btn-primary' do
+    = fa_icon 'chevron-left'
+- else
+  = link_to books_path, id: 'log-overlay-btn', class: 'btn btn-primary' do
+    = fa_icon 'chevron-left'
 .page_content
   - if Book.first
     #accordion

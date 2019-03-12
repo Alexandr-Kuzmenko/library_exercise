@@ -1,29 +1,33 @@
 #edit-book-window.modal.hide.fade{ 'aria-hidden': 'true', role: 'dialog', tabindex: '-1' }
   .modal-dialog.modal-dialog-centered{ role: 'document' }
     .modal-content
-.main_nav_bar
-  #menu-overlay-btn.btn.btn-primary
-    = fa_icon 'navicon'
-    - if user_signed_in?
-      = link_to 'Edit book', edit_book_path(@book), { remote: true, class: 'btn btn-primary', 'data-toggle': 'modal',
-                                                      'data-target': '#edit-book-window', id: 'emw' }
-      = link_to 'Delete book', book_path(@book), class: 'btn btn-primary', method: :delete,
-                                                        data: { confirm: 'Is it certain?' }
-  - if request.referer && request.referer != request.original_url
-    = link_to request.referrer, id: 'log-overlay-btn', class: 'btn btn-primary' do
-      = fa_icon 'chevron-left'
-  - else
-    = link_to books_path, id: 'log-overlay-btn', class: 'btn btn-primary' do
-      = fa_icon 'chevron-left'
+#menu-overlay-btn.btn.btn-primary
+  = fa_icon 'navicon'
+- if request.referer && request.referer != request.original_url
+  = link_to request.referrer, id: 'log-overlay-btn', class: 'btn btn-primary' do
+    = fa_icon 'chevron-left'
+- else
+  = link_to books_path, id: 'log-overlay-btn', class: 'btn btn-primary' do
+    = fa_icon 'chevron-left'
 .page_content
   .row.justify-content-center.mb-2
     .col.col-12.col-md-4.col-lg-3.m-0.p-0
       .single_envelope_block.mb-2
         %div.img-thumbnail{ style: 'text-align:center;' }
-          - if @book.envelope.url
-            %img.img-fluid{ alt: 'book_envelope', src: @book.envelope.thumb.url }
+          - if user_signed_in?
+            .img-overlaid
+              = link_to edit_book_path(@book), { remote: true, 'data-toggle': 'modal', 'data-target': '#edit-book-window', id: 'emw' } do
+                - if @book.envelope.url
+                  %img.img-fluid{ alt: 'book_envelope', src: @book.envelope.thumb.url }
+                - else
+                  = image_tag 'no_envelope.jpg', alt: 'book_envelope', class: 'img-fluid'
+                #tile.overlay
+                  = fa_icon 'cog 2x'
           - else
-            = image_tag 'no_envelope.jpg', alt: 'book_envelope', class: 'img-fluid'
+            - if @book.envelope.url
+              %img.img-fluid{ alt: 'book_envelope', src: @book.envelope.thumb.url }
+            - else
+              = image_tag 'no_envelope.jpg', alt: 'book_envelope', class: 'img-fluid'
           .caption
             .row
               .col-6
@@ -56,6 +60,10 @@
                 - else
                   %btn.btn.btn-sm.btn-danger.disabled
                     Book taken
+              - if admin_user_signed_in?
+                .col-12
+                  = link_to 'Delete book', book_path(@book), class: 'btn btn-primary', method: :delete,
+                                                             data: { confirm: 'Is it certain?' }
         %div
     .col.col-12.col-md-8.col-lg-9.m-0.p-0
       .book_title_block

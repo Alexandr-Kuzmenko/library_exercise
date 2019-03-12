@@ -24,3 +24,6 @@
 # Ignore local files for ENV=development
 public/uploads
 public/assets
+
+app/assets/images/lib-bg.jpg
+app/assets/images/lib-bg2.jpg

@@ -1,7 +1,7 @@
 class CommentsController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index, :show]
-  before_action :load_comment, only: [:show, :edit, :update, :destroy, :author_matched]
-  before_action :load_parent_book, only: [:index, :new, :create, :load_comment]
+  skip_before_action :authenticate_user!, only: %i[index show]
+  before_action :load_comment, only: %i[show edit update destroy author_matched]
+  before_action :load_parent_book, only: %i[index new create load_comment]
 
   def index
     @comments = @book.comments.all.order('created_at DESC')#.page(params[:comments_page])

@@ -37,24 +37,24 @@
       .modal-dialog.modal-dialog-centered{ role: 'document' }
         .modal-content
     %header
-      .overlay-container
-        .left-overlay
-          .overlay
-            = link_to 'Main page', root_path
-            -#= link_to user_google_oauth2_omniauth_authorize_path do
-            -#  = fa_icon 'google'
-            - if user_signed_in?
-              = link_to 'Profile', user_index_path
-              = link_to 'New book', new_book_path, { remote: true, 'data-toggle': 'modal', id: 'nmw',
-                                                     'data-target': '#new-book-window' }
-              = link_to 'Log out', destroy_user_session_path, method: :delete
-            - else
-              = link_to 'Some_New(popover)', '#', { remote: true, 'data-content' => 'You have to login at first',
-                                                    'data-toggle' => 'popover', 'data-placement' => 'bottom' }
-              %button.btn.btn-danger{ 'data-content' => 'You have to login at first', 'data-toggle' => 'popover',
-                                      'data-placement' => 'bottom' } Some_New(popover)
-              = link_to 'Sign in', '#', { id: 'login_modal', 'data-target': '#sign-in-modal', 'data-toggle': 'modal' }
-              = link_to 'Sign up', '#', { id: 'sign_up_modal', 'data-target': '#sign-up-modal', 'data-toggle': 'modal' }
+      .left-overlay
+        .overlay-content
+          = link_to 'Main page', root_path
+          -#= link_to user_google_oauth2_omniauth_authorize_path do
+          -#  = fa_icon 'google'
+          - if user_signed_in?
+            = link_to 'Profile', users_index_path
+            = link_to 'New book', new_book_path, { remote: true, 'data-toggle': 'modal', id: 'nmw',
+                                                   'data-target': '#new-book-window' }
+            = link_to 'Log out', destroy_user_session_path, method: :delete
+          - else
+            = link_to 'Profile', '#', { remote: true, 'data-content' => 'You have to login at first',
+                                                  'data-toggle' => 'popover', 'data-placement' => 'bottom' }
+            = link_to 'New book', '#', { remote: true, 'data-content' => 'You have to login at first',
+                                                  'data-toggle' => 'popover', 'data-placement' => 'bottom' }
+            = link_to 'Sign in', '#', { id: 'login_modal', 'data-target': '#sign-in-modal', 'data-toggle': 'modal' }
+            = link_to 'Sign up', '#', { id: 'sign_up_modal', 'data-target': '#sign-up-modal', 'data-toggle': 'modal' }
+        .overlay
     .alert_container
       - flash.each do |key, value|
         %div{class: "alert alert-#{key} alert-dismissible fade show", role: "alert" }

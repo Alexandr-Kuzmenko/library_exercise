@@ -1,8 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_user, only: [:index, :edit, :update, :destroy]
-
-  def index; end
+  before_action :load_user, only: %i[index edit update destroy]
 
   def edit; end
 
