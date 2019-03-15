@@ -2,6 +2,7 @@ class Book
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
   include Mongoid::Timestamps
+  include Mongoid::FullTextSearch
   # extend FriendlyId
 
   # facade
@@ -27,4 +28,6 @@ class Book
   # friendly_id :nickname, use: :slugged
 
   mount_uploader :envelope, EnvelopeUploader
+
+  fulltext_search_in :name
 end

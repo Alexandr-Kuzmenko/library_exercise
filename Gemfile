@@ -50,6 +50,7 @@ gem 'friendly_id', '~> 5.2.0'
 gem 'haml-rails', '~> 1.0'
 gem 'kaminari'
 gem 'mini_magick'
+gem 'mongoid_fulltext'
 gem 'redis-rails'
 gem 'rspec-rails', '~> 3.8'
 

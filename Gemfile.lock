@@ -196,6 +196,10 @@ GEM
       mongoid (>= 3.1)
       mongoid-compatibility (>= 0.5.1)
       rspec (~> 3.3)
+    mongoid_fulltext (0.8.2)
+      mongoid (>= 3.0, < 8)
+      mongoid-compatibility (>= 0.5.1)
+      unicode_utils
     msgpack (1.2.6)
     multi_json (1.13.1)
     nio4r (2.3.1)
@@ -324,6 +328,7 @@ GEM
       thread_safe (~> 0.1)
     uglifier (4.1.20)
       execjs (>= 0.3.0, < 3)
+    unicode_utils (1.4.0)
     warden (1.2.8)
       rack (>= 2.0.6)
     web-console (3.7.0)
@@ -363,6 +368,7 @@ DEPENDENCIES
   mini_racer
   mongoid (~> 6.4.2)
   mongoid-rspec
+  mongoid_fulltext
   puma (~> 3.12)
   rails (~> 5.2.1)
   rails-controller-testing

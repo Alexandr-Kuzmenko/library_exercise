@@ -34,7 +34,7 @@ class EnvelopeUploader < CarrierWave::Uploader::Base
     process resize_to_fill: [450, 720]
   end
   version :mini_thumb do
-    process resize_to_fill: [45, 72]
+    process resize_to_fill: [90, 144]
   end
 
   def extension_whitelist

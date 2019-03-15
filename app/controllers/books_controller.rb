@@ -6,6 +6,7 @@ class BooksController < ApplicationController
     @top_books = Book.limit(5).order('likes_count desc')
     @books = Book.all.where(status: true)
     @books_taken = Book.all.where(status: false)
+    @searched_books = Book.fulltext_search(params[:search].to_s, { max_results: 20 }) if params[:search]
   end
 
   def show; end

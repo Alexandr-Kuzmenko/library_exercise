@@ -1,0 +1,7 @@
+= form_for books_path, method: :get, local: true do
+  .row.justify-content-center
+    %div.mb-2.mt-2.mr-1.p-1
+      = text_field :search, params[:search], size: '30', placeholder: 'Print here to find books'
+    %div.mb-2.mt-2.ml-1.p-1
+      .actions
+        = submit_tag 'Search', class: "btn btn-sm btn-info", name: nil

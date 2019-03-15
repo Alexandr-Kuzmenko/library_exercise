@@ -7,6 +7,21 @@
   = link_to books_path, id: 'log-overlay-btn', class: 'btn btn-primary' do
     = fa_icon 'chevron-left'
 .page_content
+  .d-flex.flex-column
+    = render 'books/search'
+  - if @searched_books
+    .row.justify-content-center
+      .btn.btn-sm.btn-info.mb-2{ style: 'text-align:center; width:95%;' } Search Results:
+    .d-flex.flex-column.mb-1
+      .row{ style: 'justify-content:space-around;' }
+        - @searched_books.each do |s_bk|
+          .col{ style: 'text-align:center;' }
+            = link_to book_path(s_bk) do
+              - if s_bk.envelope.url
+                %img.img-fluid.img-thumbnail.mb-1{ alt: 'book_envelope', src: s_bk.envelope.mini_thumb.url }
+              - else
+                = image_tag 'no_envelope.jpg', alt: 'book_envelope', class: 'img-fluid img-thumbnail mb-1',
+                                               height: '144', width: '90'
   - if Book.first
     #accordion
       .card
