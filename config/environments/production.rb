@@ -102,5 +102,5 @@ Rails.application.configure do
   ENV['AWS_SECRET_ACCESS_KEY'] = Rails.application.credentials.aws[:aws_sak]
   ENV['AWS_REGION'] = 'eu-central-1'
   # Do not dump schema after migrations.
-  config.active_record.dump_schema_after_migration = false
+  # config.active_record.dump_schema_after_migration = false
 end
