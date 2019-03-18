@@ -161,11 +161,8 @@ test:
 production:
   clients:
     default:
-      database: library_exercise_production
       uri: <%= ENV['MONGOHQ_URI'] %>
       options:
         skip_version_check: true
       safe: true
       max_retries_on_connection_failure: 20
-      hosts:
-        - localhost:27017

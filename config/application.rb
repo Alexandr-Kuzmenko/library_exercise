@@ -9,7 +9,8 @@ require 'rails'
   rescue LoadError
   end
 end
-require 'active_storage/engine'
+require "action_cable/engine"
+# require 'active_storage/engine'
 require 'sprockets/railtie'
 
 # require 'rails/all'
