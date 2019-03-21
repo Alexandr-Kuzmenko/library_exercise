@@ -161,7 +161,8 @@ test:
 production:
   clients:
     default:
-      uri: <%= ENV['MONGOHQ_URI'] %>
+      #uri: <%= ENV['MONGOHQ_URI'] %>
+      database: library_exercise_production
       options:
         skip_version_check: true
       safe: true
